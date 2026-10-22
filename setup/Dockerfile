@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       ros-jazzy-xacro \
       ros-jazzy-teleop-twist-keyboard \
       ros-jazzy-rqt-graph \
+      ros-jazzy-rqt-tf-tree \
       python3-colcon-common-extensions \
       git nano vim less tmux \
       mesa-utils libgl1-mesa-dri x11-apps \

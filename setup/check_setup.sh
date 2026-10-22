@@ -24,7 +24,7 @@ else
   say "Gazebo" "FALTA (no se encuentra gz)"; fail
 fi
 
-for p in mini_bot gz_model_importer gz_ros2_bridge_manager gz_ros2_control_manager robotnik_description robotnik_sensors; do
+for p in mini_bot gz_model_importer gz_ros2_bridge_manager gz_ros2_control_manager robotnik_description robotnik_sensors rqt_tf_tree; do
   if ros2 pkg prefix "$p" >/dev/null 2>&1; then say "$p" "OK"; else say "$p" "FALTA"; fail; fi
 done
 

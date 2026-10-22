@@ -6,7 +6,8 @@
 ```bash
 # 1. Dependencias y el repo del taller
 sudo apt install -y ros-jazzy-ros-gz ros-jazzy-gz-ros2-control ros-jazzy-ros2-controllers \
-  ros-jazzy-ros2controlcli ros-jazzy-xacro ros-jazzy-teleop-twist-keyboard python3-colcon-common-extensions
+  ros-jazzy-ros2controlcli ros-jazzy-xacro ros-jazzy-teleop-twist-keyboard ros-jazzy-rqt-graph \
+  ros-jazzy-rqt-tf-tree python3-colcon-common-extensions
 git clone https://github.com/asoriano1/roscon-vlc-gz-workshop.git ~/roscon-vlc-gz-workshop
 REPO=~/roscon-vlc-gz-workshop
 

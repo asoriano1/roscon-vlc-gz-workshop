@@ -4,7 +4,8 @@
 
   Los nombres de links y joints ya están puestos: no los cambies, porque los launch,
   el bridge y los controladores de los ejercicios siguientes dependen de ellos.
-  Rellena lo que está marcado con TODO.
+  En el ejercicio 1, activa los PASOS comentados; en los siguientes, añade lo que pide
+  cada enunciado en su sección.
 
   Soluciones por ejercicio en  mini_bot/solutions/exNN/mini_bot.urdf.xacro
 -->
@@ -38,11 +39,13 @@
   <material name="dark"><color rgba="0.10 0.10 0.12 1.0"/></material>
 
   <!-- ============================ EJERCICIO 1: GEOMETRÍA ====================== -->
+  <!-- La geometría ya está escrita, pero comentada. Actívala en tres pasos: en cada PASO, borra
+       las líneas marcadas con "(borra esta línea)" y relanza display.launch.py. -->
 
-  <!-- base_footprint: link vacío a ras de suelo. Es el frame que usarás en RViz. -->
+  <!-- base_footprint: link vacío a ras de suelo. Es el frame fijo de RViz. -->
   <link name="${prefix}base_footprint"/>
 
-  <!-- base_link: ejemplo resuelto. Fíjate en el patrón visual + collision + inertial. -->
+  <!-- base_link: la caja. Patrón de todo link: visual + collision + inertial. -->
   <link name="${prefix}base_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -59,43 +62,73 @@
   <joint name="base_joint" type="fixed">
     <parent link="${prefix}base_footprint"/>
     <child  link="${prefix}base_link"/>
-    <!-- TODO (1a): eleva la base hasta el eje de las ruedas.
-         Pista: wheel_r + base_z/2 - 0.02 -->
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <!-- PASO 1: con este origen, la caja queda a medias bajo el suelo. El de debajo la eleva
+         hasta el eje de las ruedas. -->
+    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- PASO 1 (borra esta línea) -->
+    <!-- PASO 1 (borra esta línea)
+    <origin xyz="0 0 ${wheel_r + base_z/2 - 0.02}" rpy="0 0 0"/>
+    fin del PASO 1 (borra esta línea) -->
   </joint>
 
-  <!-- Una sola macro para las dos ruedas. 'reflect' vale 1 (izquierda) o -1 (derecha). -->
+  <!-- PASO 2: las ruedas. Una macro, instanciada dos veces: 'reflect' vale 1 (izquierda)
+       o -1 (derecha) y pone cada rueda a un lado con el mismo código. -->
+  <!-- PASO 2 (borra esta línea)
   <xacro:macro name="wheel" params="side reflect">
     <link name="${prefix}${side}_wheel_link">
       <visual>
-        <!-- TODO (1b): cilindro de radio wheel_r y largo wheel_l.
-             Ojo con la orientación: el cilindro nace en Z, la rueda gira en Y → rpy="${pi/2} 0 0" -->
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry><box size="0.01 0.01 0.01"/></geometry>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_r}" length="${wheel_l}"/></geometry>
         <material name="dark"/>
       </visual>
-      <!-- TODO (1c): la colisión, igual que el visual -->
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_r}" length="${wheel_l}"/></geometry>
+      </collision>
       <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_r}" l="${wheel_l}"/>
     </link>
 
     <joint name="${side}_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child  link="${prefix}${side}_wheel_link"/>
-      <!-- TODO (1d): coloca la rueda a media separación en Y, usando 'reflect',
-           y un poco por debajo del centro de la base -->
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <!-- TODO (1e): eje de giro -->
-      <axis xyz="0 0 1"/>
+      <origin xyz="0 ${reflect * wheel_sep/2} ${-base_z/2 + 0.02}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
       <dynamics damping="0.05" friction="0.01"/>
     </joint>
+
+    <gazebo reference="${prefix}${side}_wheel_link">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+    </gazebo>
   </xacro:macro>
 
-  <!-- TODO (1f): instancia las dos ruedas con la macro de arriba.
-       <xacro:wheel side="left"  reflect="1"/> ... -->
+  <xacro:wheel side="left"  reflect="1"/>
+  <xacro:wheel side="right" reflect="-1"/>
+  fin del PASO 2 (borra esta línea) -->
 
-  <!-- TODO (1g): rueda loca delantera. Esfera de radio caster_r, joint fijo,
-       y en Gazebo rozamiento 0 para que no arrastre:
-         <gazebo reference="${prefix}caster_link"><mu1>0.0</mu1><mu2>0.0</mu2></gazebo> -->
+  <!-- PASO 3: la rueda loca. Una esfera con joint fijo y rozamiento 0 en Gazebo. -->
+  <!-- PASO 3 (borra esta línea)
+  <link name="${prefix}caster_link">
+    <visual>
+      <geometry><sphere radius="${caster_r}"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><sphere radius="${caster_r}"/></geometry>
+    </collision>
+    <xacro:sphere_inertia m="0.2" r="${caster_r}"/>
+  </link>
+
+  <joint name="caster_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child  link="${prefix}caster_link"/>
+    <origin xyz="${base_x/2 - 0.05} 0 ${-base_z/2 - caster_r + 0.03}" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="${prefix}caster_link">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+  fin del PASO 3 (borra esta línea) -->
 
   <!-- ============================ EJERCICIO 3: SENSORES ======================= -->
   <!-- Aquí irán lidar_link, camera_link y sus etiquetas <gazebo> con los sensores. -->
