@@ -1,0 +1,61 @@
+# Construye la imagen del taller para amd64 y arm64 y la publica en ghcr.io.
+# Cada arquitectura se construye en su propio runner nativo (sin emulación) y al final se unen
+# en una sola etiqueta :latest.
+name: Imagen del taller
+
+on:
+  push:
+    branches: [main]
+    paths: ['setup/**', 'mini_bot/**', 'exercises/**', 'broken/**', 'docs/**', '.github/workflows/imagen.yml']
+  workflow_dispatch:
+
+env:
+  IMAGE: ghcr.io/asoriano1/roscon-workshop
+
+jobs:
+  build:
+    # Solo en el repo público: la imagen se publica desde ahí.
+    if: github.repository == 'asoriano1/roscon-vlc-gz-workshop'
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: setup/Dockerfile
+          platforms: linux/${{ matrix.arch }}
+          push: true
+          tags: ${{ env.IMAGE }}:latest-${{ matrix.arch }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
+  manifest:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: write
+    steps:
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Unir amd64 y arm64 en :latest
+        run: |
+          docker buildx imagetools create -t $IMAGE:latest $IMAGE:latest-amd64 $IMAGE:latest-arm64

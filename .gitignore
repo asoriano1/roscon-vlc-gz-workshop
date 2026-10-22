@@ -1,0 +1,7 @@
+build/
+install/
+log/
+*.urdf.expanded
+*.pyc
+__pycache__/
+.DS_Store

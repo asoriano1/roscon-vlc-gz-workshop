@@ -1,0 +1,44 @@
+# Controladores del RB-Summit para el ejercicio 9.
+# Mismo robot y mismo hardware interface (cuatro ruedas con interfaz de velocidad) que el
+# original de Robotnik; cambia el controlador: diff_drive_controller en modo skid-steer, que es
+# público y ya está en la imagen, en vez de robotnik_controllers/RBSummitController.
+# Lo carga setup/rbsummit/rbsummit_control.urdf.xacro (ver Dockerfile).
+#
+# Los nombres de joints van SIN prefijo: importa el RB-Summit con el campo "prefix" vacío.
+# Geometría sacada de robotnik_description (urdf/bases/rbsummit/rbsummit_base.xacro y
+# urdf/wheels/rubber_wheel/rubber_wheel.urdf.xacro):
+#   ruedas en x = ±0.229, y = ±0.235 → separación entre ruedas 0.47 m, batalla 0.458 m
+#   radio de rueda 0.11 m
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 50  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      diff_drive_controller:
+        type: diff_drive_controller/DiffDriveController
+
+  diff_drive_controller:
+    ros__parameters:
+      left_wheel_names: ["front_left_wheel_joint", "back_left_wheel_joint"]
+      right_wheel_names: ["front_right_wheel_joint", "back_right_wheel_joint"]
+
+      # Separación geométrica. En skid-steer el giro real patina y sale más lento que lo
+      # pedido; para el taller basta con que gire.
+      wheel_separation: 0.47
+      wheel_radius: 0.11
+
+      publish_rate: 50.0
+      odom_frame_id: odom
+      base_frame_id: base_footprint
+      enable_odom_tf: true
+      open_loop: false
+
+      linear.x.max_velocity: 1.0
+      linear.x.min_velocity: -1.0
+      linear.x.max_acceleration: 1.0
+      angular.z.max_velocity: 1.5
+      angular.z.min_velocity: -1.5
+      angular.z.max_acceleration: 2.0

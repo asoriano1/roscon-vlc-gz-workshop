@@ -1,0 +1,22 @@
+# Puente Gazebo ↔ ROS 2 para mini_bot (ejercicio 4).
+#
+# ESQUELETO: el reloj ya está puesto como ejemplo. Faltan el LiDAR y la cámara.
+# Para ver los nombres reales de los topics de Gazebo:
+#     gz topic -l
+#
+# Solución completa en mini_bot/solutions/ex04/bridge.yaml
+
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+
+# TODO (4a): el LiDAR.
+#   tipo ROS: sensor_msgs/msg/LaserScan   tipo GZ: gz.msgs.LaserScan
+#
+# TODO (4b): la cámara.
+#   tipo ROS: sensor_msgs/msg/Image       tipo GZ: gz.msgs.Image
+#
+# TODO (4c, opcional): el CameraInfo.
+#   tipo ROS: sensor_msgs/msg/CameraInfo  tipo GZ: gz.msgs.CameraInfo

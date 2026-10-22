@@ -1,0 +1,512 @@
+<?xml version="1.0" ?>
+<!-- workshop_zona.sdf: workshop.sdf con una zona de aparcamiento pintada en el suelo, para el extra
+     "Aparca en la zona". Mismo world name ("workshop"). La zona es solo visual (sin colisión) y
+     mide poco más que el robot: 0,55 × 0,50 m. La flecha marca hacia dónde tiene que mirar.
+     La pose objetivo no se da en el enunciado: el ejercicio consiste en encontrarla. -->
+<sdf version="1.9">
+<world name="workshop">
+
+  <!-- ============================================================
+       PHYSICS
+  ============================================================ -->
+  <physics name="1ms" type="ignored">
+    <max_step_size>0.001</max_step_size>
+    <real_time_factor>1.0</real_time_factor>
+  </physics>
+
+  <!-- ============================================================
+       WORLD SYSTEM PLUGINS
+  ============================================================ -->
+
+  <plugin filename="gz-sim-physics-system"
+          name="gz::sim::systems::Physics"/>
+  <plugin filename="gz-sim-user-commands-system"
+          name="gz::sim::systems::UserCommands"/>
+  <plugin filename="gz-sim-scene-broadcaster-system"
+          name="gz::sim::systems::SceneBroadcaster"/>
+  <plugin filename="gz-sim-sensors-system"
+          name="gz::sim::systems::Sensors">
+    <render_engine>ogre2</render_engine>
+  </plugin>
+  <plugin filename="gz-sim-imu-system"
+          name="gz::sim::systems::Imu"/>
+  <plugin filename="gz-sim-navsat-system"
+          name="gz::sim::systems::NavSat"/>
+  <plugin filename="gz-sim-contact-system"
+          name="gz::sim::systems::Contact"/>
+
+  <!-- ============================================================
+       SCENE
+  ============================================================ -->
+
+  <light name="sun" type="directional">
+    <cast_shadows>false</cast_shadows>  <!-- sombras fuera: -34 % de CPU del servidor; con sombras: workshop_showcase.sdf -->
+    <pose>0 0 10 0 0 0</pose>
+    <diffuse>0.8 0.8 0.8 1</diffuse>
+    <specular>0.2 0.2 0.2 1</specular>
+    <direction>-0.5 0.1 -0.9</direction>
+    <attenuation>
+      <range>1000</range>
+      <constant>0.9</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation>
+  </light>
+
+  <!-- Fill light facing the panel from the front so the relief reads clearly -->
+  <light name="panel_fill" type="point">
+    <pose>0 5 3 0 0 0</pose>
+    <diffuse>0.6 0.6 0.6 1</diffuse>
+    <specular>0.1 0.1 0.1 1</specular>
+    <attenuation>
+      <range>30</range>
+      <constant>0.5</constant>
+      <linear>0.05</linear>
+      <quadratic>0.002</quadratic>
+    </attenuation>
+    <cast_shadows>false</cast_shadows>
+  </light>
+
+  <!-- Ground plane -->
+  <model name="ground_plane">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>100 100</size>
+          </plane>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>100 100</size>
+          </plane>
+        </geometry>
+        <material>
+          <ambient>0.4 0.4 0.4 1</ambient>
+          <diffuse>0.4 0.4 0.4 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+
+
+  <model name="Robotnik panel">
+
+    <static>true</static>
+    <pose>0 0 0 0 0 -1.57</pose>
+  
+  <!-- ============================================================
+       ROBOTNIK LOGO PANEL
+       White backdrop 8 m wide × 3 m tall.
+       Centre at world (0, 10, 1.5).
+       Front face at Y = 10 − 0.075 = 9.925.
+  ============================================================ -->
+  
+  
+    <model name="robotnik_backdrop">
+      <static>true</static>
+      <pose>0 10 1.5 0 0 0</pose>
+      <link name="link">
+        <collision name="c">
+          <geometry><box><size>8 0.15 3</size></box></geometry>
+        </collision>
+        <visual name="v">
+          <geometry><box><size>8 0.15 3</size></box></geometry>
+          <material>
+            <ambient>0.97 0.97 0.97 1</ambient>
+            <diffuse>0.97 0.97 0.97 1</diffuse>
+            <specular>0.4 0.4 0.4 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============================================================
+        ROBOTNIK LOGO — three red dots (downward-pointing triangle)
+        Sphere radius = 0.25 m, centre Y = 9.65.
+        Back of sphere at Y ≈ 9.90, resting on the panel front face.
+        Top two dots:  (-3.50, 9.65, 2.40)  and  (-2.80, 9.65, 2.40)
+        Bottom dot:    (-3.15, 9.65, 1.65)
+    ============================================================ -->
+
+    <model name="logo_dot_tl">
+      <static>true</static>
+      <pose>-2.275 9.9 1.7 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><sphere><radius>0.14</radius></sphere></geometry>
+          <material>
+            <ambient>0.82 0.07 0.07 1</ambient>
+            <diffuse>0.82 0.07 0.07 1</diffuse>
+            <specular>0.4 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="logo_dot_tr">
+      <static>true</static>
+      <pose>-1.85 9.9 1.7 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><sphere><radius>0.14</radius></sphere></geometry>
+          <material>
+            <ambient>0.82 0.07 0.07 1</ambient>
+            <diffuse>0.82 0.07 0.07 1</diffuse>
+            <specular>0.4 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="logo_dot_bc">
+      <static>true</static>
+      <pose>-1.85 9.9 1.275 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><sphere><radius>0.14</radius></sphere></geometry>
+          <material>
+            <ambient>0.82 0.07 0.07 1</ambient>
+            <diffuse>0.82 0.07 0.07 1</diffuse>
+            <specular>0.4 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ============================================================
+        "ROBOTNIK" IN RELIEF
+        One static model, one link, 34 box visuals.
+        Model origin: world (0, 9.89, 1.5).
+          Local X — letter centres listed below.
+          Local Y — 0 (model at Y=9.89; box back face flush with panel front).
+          Local Z — relative to letter vertical mid-point.
+        Box depth (Y) = 0.07 m → protrudes 0.035 m in front of the panel.
+        Colour: dark charcoal (0.15 0.15 0.15).
+
+        Letter centres (local X):
+          R = -1.47,  O = -1.05,  B = -0.63,  O = -0.21
+          T = +0.21,  N = +0.63,  I = +1.05,  K = +1.47
+        Spacing 0.42 m, letter W = 0.30 m, bar thickness = 0.08 m,
+        letter H = 0.64 m (local Z range −0.32 to +0.32).
+    ============================================================ -->
+
+    <model name="robotnik_letters">
+      <static>true</static>
+      <pose>0 9.89 1.5 0 0 0</pose>
+      <link name="link">
+
+        <!-- ─── R  (centre X = −1.47) ───────────────────────────── -->
+        <!-- full left vertical -->
+        <visual name="r_left">
+          <pose>-1.58 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- top horizontal -->
+        <visual name="r_top">
+          <pose>-1.47 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- mid horizontal (bowl divider) -->
+        <visual name="r_mid">
+          <pose>-1.47 0  0.04 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- right vertical, upper bump -->
+        <visual name="r_rtop">
+          <pose>-1.36 0  0.16 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- diagonal leg (shifted right to suggest the kick-out) -->
+        <visual name="r_leg">
+          <pose>-1.4 0 -0.18 0 -0.2 0</pose>
+          <geometry><box><size>0.08 0.07 0.28</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── O  (centre X = −1.05) ───────────────────────────── -->
+        <visual name="o1_left">
+          <pose>-1.16 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o1_right">
+          <pose>-0.94 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o1_top">
+          <pose>-1.05 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.14 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o1_bot">
+          <pose>-1.05 0 -0.28 0 0 0</pose>
+          <geometry><box><size>0.14 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── B  (centre X = −0.63) ───────────────────────────── -->
+        <visual name="b_left">
+          <pose>-0.74 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="b_top">
+          <pose>-0.63 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="b_mid">
+          <pose>-0.63 0  0.04 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="b_bot">
+          <pose>-0.63 0 -0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- right-side vertical, upper bump -->
+        <visual name="b_rtop">
+          <pose>-0.52 0  0.16 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- right-side vertical, lower bump -->
+        <visual name="b_rbot">
+          <pose>-0.52 0 -0.12 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── O  (second, centre X = −0.21) ───────────────────── -->
+        <visual name="o2_left">
+          <pose>-0.32 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o2_right">
+          <pose>-0.10 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o2_top">
+          <pose>-0.21 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.14 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="o2_bot">
+          <pose>-0.21 0 -0.28 0 0 0</pose>
+          <geometry><box><size>0.14 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── T  (centre X = +0.21) ───────────────────────────── -->
+        <visual name="t_top">
+          <pose>0.21 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- stem from just below the top bar to the bottom -->
+        <visual name="t_vert">
+          <pose>0.21 0 -0.04 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.56</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── N  (centre X = +0.63) ───────────────────────────── -->
+        <visual name="n_left">
+          <pose>0.52 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="n_right">
+          <pose>0.74 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- staircase diagonal from top-left to bottom-right -->
+        <visual name="n_d1">
+          <pose>0.58 0  0.20 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="n_d2">
+          <pose>0.63 0  0.04 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="n_d3">
+          <pose>0.68 0 -0.12 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── I  (centre X = +1.05) ───────────────────────────── -->
+        <visual name="i_top">
+          <pose>1.05 0  0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="i_vert">
+          <pose>1.05 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <visual name="i_bot">
+          <pose>1.05 0 -0.28 0 0 0</pose>
+          <geometry><box><size>0.30 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+        <!-- ─── K  (centre X = +1.47) ───────────────────────────── -->
+        <visual name="k_left">
+          <pose>1.36 0  0.00 0 0 0</pose>
+          <geometry><box><size>0.08 0.07 0.64</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- upper arm connecting to upper-right bars -->
+        <visual name="k_arm1">
+          <pose>1.50 0  0.12 0 0 0</pose>
+          <geometry><box><size>0.16 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- lower arm -->
+        <visual name="k_arm2">
+          <pose>1.50 0 -0.12 0 0 0</pose>
+          <geometry><box><size>0.16 0.07 0.08</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- upper-right tip -->
+        <visual name="k_upper">
+          <pose>1.56 0  0.21 0 0 0</pose>
+          <geometry><box><size>0.06 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+        <!-- lower-right tip -->
+        <visual name="k_lower">
+          <pose>1.56 0 -0.21 0 0 0</pose>
+          <geometry><box><size>0.06 0.07 0.24</size></box></geometry>
+          <material><ambient>0.15 0.15 0.15 1</ambient><diffuse>0.15 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material>
+        </visual>
+
+      </link>
+    </model>
+
+</model>
+  <!-- ============================================================
+       LIDAR TARGETS
+       Same obstacles as importer_test.sdf so imported robot sensors
+       get non-trivial scan readings.
+  ============================================================ -->
+
+  <model name="wall_east">
+    <static>true</static>
+    <pose>0 5 0.5 0 0 0</pose>
+    <link name="link">
+      <visual name="v">
+        <geometry><box><size>4 0.2 1</size></box></geometry>
+        <material><ambient>0.1 0.4 0.6 1</ambient><diffuse>0.1 0.4 0.6 1</diffuse></material>
+      </visual>
+      <collision name="c">
+        <geometry><box><size>4 0.2 1</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+
+  <model name="box_obstacle_1">
+    <static>true</static>
+    <pose>2 1 0.25 0 0 0</pose>
+    <link name="link">
+      <visual name="v">
+        <geometry><box><size>0.5 0.5 0.5</size></box></geometry>
+        <material><ambient>0.8 0.2 0.2 1</ambient><diffuse>0.8 0.2 0.2 1</diffuse></material>
+      </visual>
+      <collision name="c">
+        <geometry><box><size>0.5 0.5 0.5</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+
+  <model name="box_obstacle_2">
+    <static>true</static>
+    <pose>-2 -1.5 0.3 0 0 0.4</pose>
+    <link name="link">
+      <visual name="v">
+        <geometry><box><size>0.4 0.8 0.6</size></box></geometry>
+        <material><ambient>0.2 0.7 0.2 1</ambient><diffuse>0.2 0.7 0.2 1</diffuse></material>
+      </visual>
+      <collision name="c">
+        <geometry><box><size>0.4 0.8 0.6</size></box></geometry>
+      </collision>
+    </link>
+  </model>
+
+  <model name="cylinder_obstacle">
+    <static>true</static>
+    <pose>3 -2 0.4 0 0 0</pose>
+    <link name="link">
+      <visual name="v">
+        <geometry><cylinder><radius>0.3</radius><length>0.8</length></cylinder></geometry>
+        <material><ambient>0.7 0.7 0.1 1</ambient><diffuse>0.7 0.7 0.1 1</diffuse></material>
+      </visual>
+      <collision name="c">
+        <geometry><cylinder><radius>0.3</radius><length>0.8</length></cylinder></geometry>
+      </collision>
+    </link>
+  </model>
+
+  <model name="zona_aparcamiento">
+    <static>true</static>
+    <pose>1.0 -2.6 0 0 0 2.356</pose>
+    <link name="link">
+      <visual name="zona">
+        <pose>0 0 0.002 0 0 0</pose>
+        <geometry><box><size>0.55 0.50 0.004</size></box></geometry>
+        <material><ambient>0.95 0.75 0.1 1</ambient><diffuse>0.95 0.75 0.1 1</diffuse></material>
+      </visual>
+      <visual name="flecha">
+        <pose>0.03 0 0.005 0 0 0</pose>
+        <geometry><box><size>0.30 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="punta_izq">
+        <pose>0.145 0.035 0.005 0 0 -0.785</pose>
+        <geometry><box><size>0.10 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="punta_der">
+        <pose>0.145 -0.035 0.005 0 0 0.785</pose>
+        <geometry><box><size>0.10 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+
+</world>
+</sdf>
