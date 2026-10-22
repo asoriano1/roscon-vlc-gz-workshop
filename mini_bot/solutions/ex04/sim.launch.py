@@ -7,7 +7,11 @@ Crece a lo largo del taller:
 
 Uso:
   ros2 launch mini_bot sim.launch.py
-  ros2 launch mini_bot sim.launch.py namespace:=robot_b x:=1.0 y:=0.5
+  ros2 launch mini_bot sim.launch.py x:=1.0 y:=0.5
+
+Un robot por mundo. Este launch abre su propio Gazebo, y bridge.yaml usa topics absolutos (/scan):
+con namespace:=robot_b los controladores funcionan, pero los sensores del robot publican en
+/robot_b/scan y el puente no los ve. Para varios robots, ver el extra "Multi-robot a mano".
 """
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription

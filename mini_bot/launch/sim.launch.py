@@ -1,7 +1,7 @@
 """mini_bot en Gazebo — ESQUELETO DEL TALLER.
 
-Este launch va creciendo contigo:
-  ex02  mundo + robot_state_publisher + spawn      <- empiezas aquí
+Este launch crece ejercicio a ejercicio:
+  ex02  mundo + robot_state_publisher + spawn      <- empieza aquí
   ex04  + ros_gz_bridge + RViz
   ex05  + spawners de controladores
 

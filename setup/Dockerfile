@@ -2,16 +2,19 @@
 #
 #   docker build -t ghcr.io/asoriano1/roscon-workshop:latest -f setup/Dockerfile .
 #
-# Los SHA de los repos se fijan en el build para que todos los asistentes tengan
-# exactamente el mismo código. Antes del taller: sustituir los "main" por los SHA reales.
+# Los repos se fijan por SHA para que cualquier reconstrucción de la imagen tenga exactamente el
+# mismo código que se ha probado. Para actualizar uno, cambia su SHA aquí y vuelve a probar.
+# Versiones del 22-oct-2026: las mismas que la imagen validada el 9 de octubre.
 FROM ros:jazzy-ros-base
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG IMPORTER_REF=main
-ARG BRIDGE_REF=main
-ARG CONTROL_REF=main
-ARG DESCRIPTION_REF=jazzy-devel
-ARG SENSORS_REF=jazzy-devel
+# main, 19-may-2026
+ARG IMPORTER_REF=d472d95aa2e19e87cd7eb12386191da8f8bf9b74
+ARG BRIDGE_REF=72773a816d2211a454c2f57eab3d0fd080dfe842
+ARG CONTROL_REF=e86beb511e4fc7dc989d071460a2d126f53d252b
+# jazzy-devel, 17-jul-2026 y 5-ago-2026
+ARG DESCRIPTION_REF=4bc73425d090ead4591a7091e7ef7e7dc4fe862a
+ARG SENSORS_REF=11852f4f14d6e0a561117396187f7674ed33ab2b
 
 SHELL ["/bin/bash", "-c"]
 
@@ -36,11 +39,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV WS=/workshop_ws
 WORKDIR ${WS}/src
 
-RUN git clone --depth 1 --branch ${IMPORTER_REF}    https://github.com/asoriano1/gz_model_importer_plugin.git \
- && git clone --depth 1 --branch ${BRIDGE_REF}      https://github.com/asoriano1/gz_ros2_bridge_manager.git \
- && git clone --depth 1 --branch ${CONTROL_REF}     https://github.com/asoriano1/gz_ros2_control_manager.git \
- && git clone --depth 1 --branch ${DESCRIPTION_REF} https://github.com/RobotnikAutomation/robotnik_description.git \
- && git clone --depth 1 --branch ${SENSORS_REF}     https://github.com/RobotnikAutomation/robotnik_sensors.git
+# git clone --branch no acepta un SHA: se trae ese commit concreto con fetch.
+RUN clone() { git init -q "$1" && git -C "$1" fetch -q --depth 1 "https://github.com/$2.git" "$3" \
+              && git -C "$1" checkout -q FETCH_HEAD; } \
+ && clone gz_model_importer_plugin asoriano1/gz_model_importer_plugin          ${IMPORTER_REF} \
+ && clone gz_ros2_bridge_manager   asoriano1/gz_ros2_bridge_manager            ${BRIDGE_REF} \
+ && clone gz_ros2_control_manager  asoriano1/gz_ros2_control_manager           ${CONTROL_REF} \
+ && clone robotnik_description     RobotnikAutomation/robotnik_description     ${DESCRIPTION_REF} \
+ && clone robotnik_sensors         RobotnikAutomation/robotnik_sensors         ${SENSORS_REF}
 
 # El paquete del taller se compila junto con la suite
 COPY mini_bot ${WS}/src/mini_bot

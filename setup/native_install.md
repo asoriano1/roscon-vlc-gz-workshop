@@ -18,6 +18,12 @@ git clone https://github.com/asoriano1/gz_ros2_bridge_manager.git
 git clone https://github.com/asoriano1/gz_ros2_control_manager.git
 git clone -b jazzy-devel https://github.com/RobotnikAutomation/robotnik_description.git
 git clone -b jazzy-devel https://github.com/RobotnikAutomation/robotnik_sensors.git
+# las mismas versiones que la imagen de Docker
+git -C gz_model_importer_plugin checkout -q d472d95aa2e19e87cd7eb12386191da8f8bf9b74
+git -C gz_ros2_bridge_manager   checkout -q 72773a816d2211a454c2f57eab3d0fd080dfe842
+git -C gz_ros2_control_manager  checkout -q e86beb511e4fc7dc989d071460a2d126f53d252b
+git -C robotnik_description     checkout -q 4bc73425d090ead4591a7091e7ef7e7dc4fe862a
+git -C robotnik_sensors         checkout -q 11852f4f14d6e0a561117396187f7674ed33ab2b
 ln -s $REPO/mini_bot $WS/src/mini_bot
 cp $REPO/setup/rbsummit/rbsummit_control.urdf.xacro \
    robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del ejercicio 9
