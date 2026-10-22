@@ -34,13 +34,34 @@ docker pull ghcr.io/asoriano1/roscon-workshop:latest
 ```
 
 **Desde un USB.** Pesa varios GB y la Wi-Fi de la sala no da para que todos la descarguen a la
-vez, así que en la sala habrá varios USB con la imagen. Cópiala a tu disco, cárgala y pasa el USB
-a la siguiente persona:
+vez, así que en la sala habrá varios USB con la imagen.
+
+> **La imagen del USB es solo para amd64** (portátiles con procesador Intel o AMD). Comprueba la
+> arquitectura de tu máquina con `uname -m`: tiene que salir `x86_64`. Si sale `arm64` o
+> `aarch64` (por ejemplo, un Mac con Apple Silicon), usa `docker pull`, que descarga la versión
+> para tu arquitectura.
+
+Con el USB conectado, busca dónde se ha montado. En Ubuntu está en `/media/<tu usuario>/`:
 
 ```bash
-cp /ruta/al/usb/roscon-workshop.tar.gz ~/
+ls /media/$USER/
+```
+
+Copia la imagen a tu disco y devuelve el USB en cuanto termine la copia, para que pase a la
+siguiente persona:
+
+```bash
+cp /media/$USER/NOMBRE_DEL_USB/roscon-workshop.tar.gz ~/
+```
+
+Cárgala en Docker:
+
+```bash
 docker load -i ~/roscon-workshop.tar.gz
 ```
+
+Tiene que terminar con `Loaded image: ghcr.io/asoriano1/roscon-workshop:latest`. Después, borra la
+copia para liberar espacio: `rm ~/roscon-workshop.tar.gz`.
 
 ### 3. Arranca el contenedor
 

@@ -58,16 +58,29 @@ en una zona marcada, añadir un sensor y montar tres robots a mano con launch fi
      docker pull ghcr.io/asoriano1/roscon-workshop:latest
      ```
 
-   - **Desde un USB.** La Wi-Fi de la sala no da para que todos descarguen la imagen a la vez,
-     así que habrá varios USB circulando con ella. Copia el fichero a tu disco, cárgalo y pasa el
-     USB a la siguiente persona en cuanto termine la copia:
+   - **Desde un USB**, solo en portátiles **amd64** (Intel o AMD). La Wi-Fi de la sala no da para
+     que todos descarguen la imagen a la vez, así que habrá varios USB circulando con ella.
+
+     Comprueba primero la arquitectura con `uname -m`: tiene que salir `x86_64`. Si sale `arm64`
+     o `aarch64` (por ejemplo, un Mac con Apple Silicon), la imagen del USB no sirve: usa
+     `docker pull`.
+
+     Busca dónde se ha montado el USB (en Ubuntu, en `/media/<tu usuario>/`), copia el fichero a
+     tu disco y devuelve el USB en cuanto termine la copia:
 
      ```bash
-     cp /ruta/al/usb/roscon-workshop.tar.gz ~/
+     ls /media/$USER/
+     cp /media/$USER/NOMBRE_DEL_USB/roscon-workshop.tar.gz ~/
+     ```
+
+     Cárgalo en Docker:
+
+     ```bash
      docker load -i ~/roscon-workshop.tar.gz
      ```
 
      Al terminar, `docker load` escribe `Loaded image: ghcr.io/asoriano1/roscon-workshop:latest`.
+     Después, borra la copia para liberar espacio: `rm ~/roscon-workshop.tar.gz`.
 
 4. **Arranca el contenedor**, desde la raíz del repo:
 
