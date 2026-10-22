@@ -189,7 +189,9 @@ Verificado con el launch del ejercicio 5 en marcha, sin namespace:
 
 El launch lo arranca todo a la vez, pero cada pieza espera a la anterior:
 
-1. `create` espera a que `robot_state_publisher` publique `/robot_description`.
+1. `create` espera a que el mundo de Gazebo responda (lo reintenta cada pocos segundos) y a que
+   `robot_state_publisher` publique `/robot_description` (verificado). En `sim.launch.py`,
+   además, arranca con 3 s de retraso (`TimerAction`), para que el orden sea siempre el mismo.
 2. El plugin de ros2_control nace con el robot. Su `controller_manager` espera también a
    `/robot_description`.
 3. Los spawners esperan al `controller_manager`.
