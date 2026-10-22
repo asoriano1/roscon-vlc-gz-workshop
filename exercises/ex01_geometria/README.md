@@ -114,14 +114,14 @@ En `rqt_graph` se ve quién publica qué y quién lo escucha. Busca las respuest
 
 La descripción completa de cada pieza está en [Anatomía de un robot simulado](../../docs/anatomia.md).
 
-Si sobra tiempo, empieza el ejercicio 2.
-
 ## Preguntas
 
 1. ¿Para qué sirve `base_footprint` si no tiene geometría?
 2. ¿Por qué la rueda loca lleva rozamiento 0 y las ruedas motrices no?
 3. Imagina este robot duplicado en el mismo mundo, sin tocar nada: ¿qué se rompe primero?
-4. En RViz el robot no cae ni choca con nada. ¿Por qué?
+4. ¿Hay ya algo simulado? Gazebo no se ha lanzado: ¿qué se ve realmente en RViz?
+
+Con estas respuestas, pasa al [ejercicio 2](../ex02_gazebo_launch/): ahí entra Gazebo.
 
 ## Sobre `${prefix}`
 
