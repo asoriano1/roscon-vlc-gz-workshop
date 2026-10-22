@@ -43,7 +43,7 @@ if [ -e /dev/dri/renderD128 ]; then say "GPU" "/dev/dri disponible"; else say "G
 echo
 if [ "$ok" = "1" ]; then
   echo "CÓDIGO: OK-JAZZY-HARMONIC-SUITE"
-  echo "Para enseñarlo en el post-it verde."
+  echo "Enséñalo en tu post-it verde."
 else
   echo "CÓDIGO: FALTA-ALGO — mira las líneas con FALTA de arriba."
   exit 1

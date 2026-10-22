@@ -1,33 +1,52 @@
-# Del xacro al robot que conduce — Taller de 3 h
+# De URDF/XACRO a ROS 2 en Gazebo Harmonic sin pasar por consola
 
-Taller de ROSCon Valencia. Se construye un robot desde cero en URDF, se hace funcionar en Gazebo
-a mano y después se repite lo mismo con la **Gazebo ROS 2 Model Runtime Suite**: tres plugins de
-GUI que permiten importar, puentear y controlar robots sin salir de Gazebo.
+Taller de 3 h de ROSCon Valencia. Construye un robot desde cero en URDF, hazlo funcionar en
+Gazebo a mano y después repite lo mismo con la **Gazebo ROS 2 Model Runtime Suite**: tres plugins
+de GUI para importar, puentear y controlar robots sin salir de Gazebo.
 
 - [Model Importer](https://github.com/asoriano1/gz_model_importer_plugin) — importa URDF, XACRO y SDF con preview y spawn.
 - [Bridge Manager](https://github.com/asoriano1/gz_ros2_bridge_manager) — descubre topics de sensores y lanza `ros_gz_bridge`.
 - [ROS 2 Control Manager](https://github.com/asoriano1/gz_ros2_control_manager) — descubre controller managers y carga, configura y activa controladores.
 
-Entorno: **ROS 2 Jazzy + Gazebo Harmonic**. Al final se usan robots reales de
+Entorno: **ROS 2 Jazzy + Gazebo Harmonic**. Al final, robots reales de
 [`robotnik_description`](https://github.com/RobotnikAutomation/robotnik_description).
 
 ---
 
-## Antes del taller (en casa, no en la sala)
+## Prepara el entorno
 
-La Wi-Fi de un congreso no da para 25 descargas de varios GB.
+Todo el taller corre en una imagen de Docker. La guía del alumno tiene los pasos uno a uno, con
+lo que debe aparecer en cada uno: [docs/guia_alumno.md](docs/guia_alumno.md). Aquí, el resumen.
 
-Los pasos, uno a uno y con lo que debe verse en cada uno, están en la
-[guía del alumno](docs/guia_alumno.md), "Antes del taller, en casa". Allí también: qué se hace y
-en qué orden, cómo se trabaja con el contenedor, las reglas de la sala y qué hacer si algo no
-funciona. Aquí, el resumen.
-
-### Opción A — Docker (recomendada)
+### 1. Clona el repositorio
 
 ```bash
 git clone https://github.com/asoriano1/roscon-vlc-gz-workshop.git
 cd roscon-vlc-gz-workshop
+```
+
+### 2. Consigue la imagen
+
+**Desde internet:**
+
+```bash
 docker pull ghcr.io/asoriano1/roscon-workshop:latest
+```
+
+**Desde un USB.** Pesa varios GB y la Wi-Fi de la sala no da para que todos la descarguen a la
+vez, así que en la sala habrá varios USB con la imagen. Cópiala a tu disco, cárgala y pasa el USB
+a la siguiente persona:
+
+```bash
+cp /ruta/al/usb/roscon-workshop.tar.gz ~/
+docker load -i ~/roscon-workshop.tar.gz
+```
+
+### 3. Arranca el contenedor
+
+Desde la raíz del repo:
+
+```bash
 ./setup/run.sh                 # Linux con X11
 ./setup/run_novnc.sh           # macOS, Windows o si X11 falla → http://localhost:6080
 ```
@@ -38,21 +57,17 @@ Dentro del contenedor:
 check_setup.sh                 # debe terminar en CÓDIGO: OK-JAZZY-HARMONIC-SUITE
 ```
 
-**Se edita en la máquina propia; el contenedor solo ejecuta.** La carpeta `mini_bot/` del repo se
-monta dentro del contenedor (en `/workshop_ws/src/mini_bot`): los ficheros se abren con el editor
-de siempre y los cambios se ven dentro al momento, sin recompilar. Como viven en el disco propio,
-no se pierden al cerrar el contenedor.
+**Edita en tu máquina; el contenedor solo ejecuta.** La carpeta `mini_bot/` del repo se monta
+dentro del contenedor (en `/workshop_ws/src/mini_bot`): abre los ficheros con tu editor de siempre
+y los cambios se ven dentro al momento, sin recompilar. Como viven en tu disco, no se pierden al
+cerrar el contenedor.
 
-**Otra terminal dentro del contenedor:** `./setup/shell.sh` desde la raíz del repo. Sale con
-ROS 2 y el workspace ya cargados. `tmux` también está en la imagen.
+**Para otra terminal dentro del contenedor**, lanza `./setup/shell.sh` desde la raíz del repo.
+Sale con ROS 2 y el workspace ya cargados. `tmux` también está en la imagen.
 
-### Opción B — Instalación nativa
+### Sin Docker
 
-Ubuntu 24.04 con Jazzy ya instalado: [setup/native_install.md](setup/native_install.md).
-
-### Si nada funciona
-
-Conviene venir igualmente: se trabaja por parejas y habrá un USB con la imagen en la sala.
+Con Ubuntu 24.04 y Jazzy ya instalados, sigue [setup/native_install.md](setup/native_install.md).
 
 ---
 
@@ -62,14 +77,14 @@ Una caja con dos ruedas, una rueda loca, un LiDAR de 180 muestras a 5 Hz y una c
 320 × 240 a 10 Hz. Sin mallas y con sensores baratos a propósito: así la simulación va fluida
 en un portátil sin GPU, y toda la atención queda en el flujo de trabajo, no en los polígonos.
 
-Se construye por capas. En `mini_bot/urdf/mini_bot.urdf.xacro` está el esqueleto con los nombres
+Constrúyelo por capas. En `mini_bot/urdf/mini_bot.urdf.xacro` está el esqueleto con los nombres
 de links y joints ya puestos, y en `mini_bot/solutions/exNN/`, la solución de cada ejercicio.
 
 ## Programa
 
 | Hora | Bloque | Ejercicio |
 |---|---|---|
-| 0:00–0:10 | Presentación y comprobación de entorno | |
+| 0:00–0:10 | Presentación y preparación del entorno | |
 | 0:10–0:25 | Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
 | 0:25–0:40 | Geometría del mini_bot | [ex01](exercises/ex01_geometria/) |
 | 0:40–0:52 | Launch y primer spawn | [ex02](exercises/ex02_gazebo_launch/) |
@@ -84,13 +99,13 @@ de links y joints ya puestos, y en `mini_bot/solutions/exNN/`, la solución de c
 | 2:35–2:50 | Reto por parejas | [challenge](exercises/challenge/) |
 | 2:50–3:00 | Cierre | |
 
-**Extras opcionales**, para quien termine antes. Cada uno hace lo mismo a mano y con la suite:
+**Extras opcionales**, para acabar antes de tiempo. Cada uno hace lo mismo a mano y con la suite:
 
-- [Aparcar en la zona](exercises/extra_zona/): dejar el robot en una zona marcada, primero
+- [Aparca en la zona](exercises/extra_zona/): deja el robot en una zona marcada, primero
   adivinando coordenadas desde la consola y después arrastrándolo con el ratón en el importer.
-- [Un sensor más](exercises/extra_sensor/): añadir una IMU y llevarla a ROS 2, con el
+- [Un sensor más](exercises/extra_sensor/): añade una IMU y llévala a ROS 2, con el
   `bridge.yaml` y con el Bridge Manager.
-- [Multi-robot a mano](exercises/extra_multirobot/): tres robots desde launch files, con sus
+- [Multi-robot a mano](exercises/extra_multirobot/): monta tres robots desde launch files, con sus
   namespaces, prefijos y controladores.
 
 Qué hace cada pieza (xacro, `robot_state_publisher`, `create`, bridge, ros2_control, controladores):

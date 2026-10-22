@@ -1,14 +1,14 @@
 # Reto final por parejas (15 min)
 
-Cada pareja elige **uno**. A falta de 5 minutos para el cierre, dos parejas enseñan su pantalla.
+Elegid **uno** por pareja. A falta de 5 minutos para el cierre, dos parejas enseñan su pantalla.
 
-## A — Ampliar el mini_bot
+## A — Amplía tu mini_bot
 
-Añadir un sensor más al `mini_bot`: un segundo LiDAR mirando atrás, una IMU o una cámara de
-profundidad. Reimportarlo con el Model Importer y comprobar que el sensor nuevo aparece solo en
+Añade un sensor más al `mini_bot`: un segundo LiDAR mirando atrás, una IMU o una cámara de
+profundidad. Reimpórtalo con el Model Importer y comprueba que el sensor nuevo aparece solo en
 el Bridge Manager.
 
-Criterio de éxito: el sensor publica en ROS 2 sin escribir una línea de YAML.
+Criterio de éxito: el sensor publica en ROS 2 sin una sola línea de YAML.
 
 ## B — Flota de mini_bots
 
@@ -17,8 +17,8 @@ Cuatro `mini_bot` en el mismo mundo, cada uno con su namespace y su prefijo de f
 
 La dificultad de verdad: **verlos los cuatro a la vez en RViz.** Cada robot tiene su propio árbol
 de TF colgando de su `robot_x/odom`, y ninguno sabe dónde está el otro. Hace falta un frame
-común: un `static_transform_publisher` por robot, desde `world` hasta su `odom`, con la pose en
-la que se importó:
+común: publica un `static_transform_publisher` por robot, desde `world` hasta su `odom`, con la
+pose en la que lo importaste:
 
 ```bash
 ros2 run tf2_ros static_transform_publisher --x 0 --y 1.5 \
@@ -31,17 +31,17 @@ colgando de él.
 Criterio de éxito: `ros2 topic list | grep -c scan` devuelve 4, los cuatro se mueven, y en RViz
 con *Fixed Frame* `world` se ven los cuatro robots y sus cuatro LaserScan a la vez.
 
-## C — Un robot propio
+## C — Trae tu robot
 
-Importar el URDF o xacro de un robot propio.
+Importa el URDF o xacro de tu propio robot.
 
-- Si falla: leer el informe de preflight y contar qué ha detectado.
-- Si funciona: puentear sus sensores y enseñarlo.
+- Si falla, lee el informe de preflight y cuenta qué ha detectado.
+- Si funciona, puentea sus sensores y enséñalo.
 
-Es el reto más útil para la suite: los fallos que salgan aquí son issues reales. Conviene
-apuntarlos para abrirlos en GitHub al terminar.
+Es el reto más útil para la suite: los fallos que salgan aquí son issues reales. Apúntalos y
+ábrelos en GitHub al terminar.
 
 ## Si sobra tiempo
 
-Cronometrar cuánto se tarda ahora en montar lo de los ejercicios 1 a 5 desde cero, y compararlo
-con la primera marca.
+Cronometra cuánto tardas ahora en montar lo de los ejercicios 1 a 5 desde cero, y compáralo con
+tu primera marca.

@@ -2,9 +2,9 @@
 <!--
   mini_bot — ESQUELETO DEL TALLER. Este es el archivo que se completa a lo largo de los ejercicios.
 
-  Los nombres de links y joints ya están puestos y no hay que cambiarlos: los launch,
+  Los nombres de links y joints ya están puestos: no los cambies, porque los launch,
   el bridge y los controladores de los ejercicios siguientes dependen de ellos.
-  Hay que rellenar lo que está marcado con TODO.
+  Rellena lo que está marcado con TODO.
 
   Soluciones por ejercicio en  mini_bot/solutions/exNN/mini_bot.urdf.xacro
 -->
@@ -59,7 +59,7 @@
   <joint name="base_joint" type="fixed">
     <parent link="${prefix}base_footprint"/>
     <child  link="${prefix}base_link"/>
-    <!-- TODO (1a): elevar la base hasta el eje de las ruedas.
+    <!-- TODO (1a): eleva la base hasta el eje de las ruedas.
          Pista: wheel_r + base_z/2 - 0.02 -->
     <origin xyz="0 0 0" rpy="0 0 0"/>
   </joint>
@@ -81,7 +81,7 @@
     <joint name="${side}_wheel_joint" type="continuous">
       <parent link="${prefix}base_link"/>
       <child  link="${prefix}${side}_wheel_link"/>
-      <!-- TODO (1d): colocar la rueda a media separación en Y, usando 'reflect',
+      <!-- TODO (1d): coloca la rueda a media separación en Y, usando 'reflect',
            y un poco por debajo del centro de la base -->
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <!-- TODO (1e): eje de giro -->
@@ -90,7 +90,7 @@
     </joint>
   </xacro:macro>
 
-  <!-- TODO (1f): instanciar las dos ruedas con la macro de arriba.
+  <!-- TODO (1f): instancia las dos ruedas con la macro de arriba.
        <xacro:wheel side="left"  reflect="1"/> ... -->
 
   <!-- TODO (1g): rueda loca delantera. Esfera de radio caster_r, joint fijo,

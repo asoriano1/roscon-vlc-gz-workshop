@@ -2,19 +2,19 @@
 
 **Opcional**, para quien vaya adelantado. Es el más largo de los extras.
 
-**Qué se hace:** tres `mini_bot` en el mismo mundo, cada uno con su namespace, su prefijo de
+**Qué haces:** monta tres `mini_bot` en el mismo mundo, cada uno con su namespace, su prefijo de
 frames y sus controladores, todo desde launch files. Es lo que en el ejercicio 6 fueron tres
 clics.
 
 **Punto de partida:** el ejercicio 5 terminado (o su solución copiada).
 
-**Archivos que se crean:** `mini_bot/launch/spawn.launch.py` y `mini_bot/launch/multi.launch.py`
+**Archivos que creas:** `mini_bot/launch/spawn.launch.py` y `mini_bot/launch/multi.launch.py`
 **Solución:** `mini_bot/solutions/extra_multirobot/`
 
 ## Por qué no basta con lanzar el mismo launch tres veces
 
 El `sim.launch.py` del ejercicio 5 hace cinco cosas: abre Gazebo, mete el robot, lanza el bridge,
-abre RViz y arranca los controladores. Lanzado tres veces, abre tres Gazebo. Hay que separar:
+abre RViz y arranca los controladores. Lanzado tres veces, abre tres Gazebo. Sepáralo en dos:
 
 - **Una vez por mundo:** Gazebo y el puente de `/clock`.
 - **Una vez por robot:** `robot_state_publisher`, `create`, el puente de sus sensores y sus
@@ -22,36 +22,36 @@ abre RViz y arranca los controladores. Lanzado tres veces, abre tres Gazebo. Hay
 
 ## Pasos
 
-1. **`spawn.launch.py`: un robot en un Gazebo que ya está corriendo.** Partir de una copia de
+1. **`spawn.launch.py`: un robot en un Gazebo que ya está corriendo.** Parte de una copia de
    `sim.launch.py` y:
-   - Quitar Gazebo y RViz.
-   - Dejar como argumentos `namespace`, `x`, `y` y `yaw`.
-   - Pasar al xacro `prefix:=` *namespace + barra*, construido a partir del namespace, para que
+   - Quita Gazebo y RViz.
+   - Deja como argumentos `namespace`, `x`, `y` y `yaw`.
+   - Pasa al xacro `prefix:=` *namespace + barra*, construido a partir del namespace, para que
      no se pueda pasar uno sin el otro: `' prefix:=', ns, '/'`.
-   - Usar el namespace como `-name` de `create`: el nombre del modelo en Gazebo no puede
+   - Usa el namespace como `-name` de `create`: el nombre del modelo en Gazebo no puede
      repetirse.
 2. **El puente de cada robot.** El `bridge.yaml` dice `/scan`, pero con namespace el robot
-   publica en `/robot_b/scan`. Sustituir el YAML por el topic construido con el namespace:
+   publica en `/robot_b/scan`. Sustituye el YAML por el topic construido con el namespace:
 
    ```python
    arguments=[['/', ns, '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan']],
    ```
 
-3. **`multi.launch.py`: el mundo y tres robots.** Gazebo, un único puente de `/clock` y tres
+3. **`multi.launch.py`: el mundo y tres robots.** Pon Gazebo, un único puente de `/clock` y tres
    `IncludeLaunchDescription` de `spawn.launch.py`: `robot_a` en (0, 0), `robot_b` en (0, 1.5) y
    `robot_c` en (0, −1.5).
-4. Son ficheros nuevos, así que hay que compilar una vez antes de lanzar:
+4. Son ficheros nuevos, así que compila una vez antes de lanzar:
 
    ```bash
    cd $WS && colcon build --packages-select mini_bot --symlink-install && source install/setup.bash
    ros2 launch mini_bot multi.launch.py
    ```
 
-⏱️ Apuntar el tiempo.
+⏱️ Apunta el tiempo.
 
-## Comprobación
+## Comprueba
 
-En otra terminal (`./setup/shell.sh` en la máquina propia, desde la raíz del repo):
+En otra terminal (lanza `./setup/shell.sh` en tu máquina, desde la raíz del repo):
 
 ```bash
 ros2 control list_controllers -c /robot_b/controller_manager   # dos controladores, active
@@ -59,7 +59,7 @@ ros2 topic list | grep scan                                    # /robot_a/scan, 
 ros2 topic echo /robot_b/scan --once --field header.frame_id   # robot_b/lidar_link
 ```
 
-Y conducir uno:
+Y conduce uno:
 
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
@@ -68,7 +68,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard \
 
 ## La comparación
 
-La lista de lo que ha habido que tener en cuenta: el namespace en cada nodo, el prefijo con barra,
+Repasa todo lo que has tenido en cuenta: el namespace en cada nodo, el prefijo con barra,
 un nombre de modelo distinto, el puente con los topics construidos, `/clock` una sola vez y los
 spawners apuntando al `controller_manager` de su robot. En el ejercicio 6 fueron tres campos de
 texto por robot.
@@ -80,7 +80,7 @@ panel.
 
 1. ¿Por qué el spawner usa `'controller_manager'`, sin barra delante? ¿Qué pasaría con
    `'/controller_manager'`?
-2. ¿Qué pasa al lanzar un `spawn.launch.py` más con `namespace:=robot_b`?
+2. Lanza un `spawn.launch.py` más con `namespace:=robot_b`: ¿qué pasa?
 3. ¿Por qué `/clock` va en `multi.launch.py` y no en `spawn.launch.py`?
 
 ## Errores típicos

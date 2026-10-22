@@ -1,9 +1,9 @@
 # Ejercicio 5 — ros2_control y los controladores (15 min)
 
-**Qué se construye:** el bloque `<ros2_control>` del URDF, el plugin de Gazebo y los
-spawners en el launch. Al final, el robot se conduce con el teclado.
+**Qué construyes:** el bloque `<ros2_control>` del URDF, el plugin de Gazebo y los
+spawners en el launch. Al final, conduce el robot con el teclado.
 
-**Archivos que se editan:** `mini_bot/urdf/mini_bot.urdf.xacro` y `mini_bot/launch/sim.launch.py`
+**Archivos que editas:** `mini_bot/urdf/mini_bot.urdf.xacro` y `mini_bot/launch/sim.launch.py`
 **Soluciones:** `mini_bot/solutions/ex05/`
 **Ya viene hecho:** `mini_bot/config/controllers.yaml`
 
@@ -12,13 +12,13 @@ spawners en el launch. Al final, el robot se conduce con el teclado.
 
 ## Pasos
 
-1. En el URDF, un bloque `<ros2_control name="${prefix}GazeboSimSystem" type="system">` con:
+1. En el URDF, escribe un bloque `<ros2_control name="${prefix}GazeboSimSystem" type="system">` con:
 
    - `<plugin>gz_ros2_control/GazeboSimSystem</plugin>`
    - los dos joints de las ruedas, cada uno con `command_interface` de velocidad y
      `state_interface` de posición y velocidad.
 
-2. El plugin del sistema, que carga los controladores:
+2. Añade el plugin del sistema, que carga los controladores:
 
    ```xml
    <gazebo>
@@ -29,22 +29,22 @@ spawners en el launch. Al final, el robot se conduce con el teclado.
    </gazebo>
    ```
 
-3. En el launch, dos spawners: `joint_state_broadcaster` y `diff_drive_controller`.
+3. En el launch, añade dos spawners: `joint_state_broadcaster` y `diff_drive_controller`.
 
-## Comprobación
+## Comprueba
 
 ```bash
 ros2 launch mini_bot sim.launch.py
 ```
 
-En otra terminal (`./setup/shell.sh` en la máquina propia, desde la raíz del repo):
+En otra terminal (lanza `./setup/shell.sh` en tu máquina, desde la raíz del repo):
 
 ```bash
 ros2 control list_controllers
 ros2 control list_hardware_interfaces
 ```
 
-Y a conducir:
+Y conduce:
 
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
@@ -58,21 +58,21 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard \
 ## La odometría no es la verdad
 
 `/diff_drive_controller/odom` no sabe dónde está el robot: lo calcula contando vueltas de rueda.
-Hay que compararla con la pose real que da Gazebo:
+Compárala con la pose real que da Gazebo:
 
 ```bash
 ros2 topic echo /diff_drive_controller/odom --once --field pose.pose.position
 gz model -m mini_bot -p
 ```
 
-Primero en línea recta y después dando vueltas un rato. ¿Coinciden? Si no, ¿de dónde sale la
+Pruébalo primero en línea recta y después dando vueltas un rato. ¿Coinciden? Si no, ¿de dónde sale la
 diferencia?
 
 ## Preguntas
 
 1. ¿Qué diferencia hay entre una `command_interface` y una `state_interface`?
 2. ¿Quién publica la odometría ahora: el bridge o el controlador? ¿Por qué no hace falta puentearla?
-3. ¿Qué pasa si el spawner se lanza antes de que exista el `controller_manager`?
+3. ¿Qué pasa si el spawner arranca antes de que exista el `controller_manager`?
 
 ## Sobre el `prefix`
 
@@ -92,7 +92,7 @@ La barra del prefijo tampoco es capricho: con namespace, este controlador public
 
 | Síntoma | Causa |
 |---|---|
-| `Controller manager not available` | El plugin no se cargó: revisar `GZ_SIM_SYSTEM_PLUGIN_PATH` y el nombre del filename |
-| El controlador carga pero el robot no se mueve | Está en `inactive`, o se publica en el `cmd_vel` equivocado |
+| `Controller manager not available` | El plugin no se cargó: revisa `GZ_SIM_SYSTEM_PLUGIN_PATH` y el nombre del filename |
+| El controlador carga pero el robot no se mueve | Está en `inactive`, o el teleop publica en el `cmd_vel` equivocado |
 | El teleop no mueve el robot y el controlador está `active` | Falta `-p stamped:=true` (o está fuera de `--ros-args`): en Jazzy el controlador solo acepta `TwistStamped` |
 | El robot gira sobre sí mismo | Ruedas intercambiadas en `controllers.yaml` o signo de `reflect` al revés |

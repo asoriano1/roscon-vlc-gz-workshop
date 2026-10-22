@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Arranca el contenedor del taller con GUI nativa (Linux + X11).
 # Uso:  ./setup/run.sh [comando]      por defecto abre una bash
-# mini_bot/ se monta desde la máquina propia: se edita fuera y el contenedor solo ejecuta.
+# mini_bot/ se monta desde tu máquina: edita fuera, el contenedor solo ejecuta.
 set -e
 IMAGE="${IMAGE:-ghcr.io/asoriano1/roscon-workshop:latest}"
 # Rutas desde la raíz del repo, no desde $PWD: si montas una carpeta que no existe, Docker la

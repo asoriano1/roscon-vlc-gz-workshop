@@ -39,7 +39,7 @@ def generate_launch_description():
         ' prefix:=', LaunchConfiguration('prefix'),
     ]), value_type=str)
 
-    # TODO (2a): incluir el launch de Gazebo que trae ros_gz_sim y pasarle el mundo.
+    # TODO (2a): incluye el launch de Gazebo que trae ros_gz_sim y pásale el mundo.
     #   paquete: ros_gz_sim     fichero: launch/gz_sim.launch.py
     #   argumento: gz_args = ['-r ', LaunchConfiguration('world')]
     gazebo = IncludeLaunchDescription(
@@ -57,7 +57,7 @@ def generate_launch_description():
         parameters=[{}],
     )
 
-    # TODO (2c): hacer el spawn del robot leyendo el topic robot_description.
+    # TODO (2c): haz el spawn del robot leyendo el topic robot_description.
     #   paquete ros_gz_sim, ejecutable create
     #   argumentos: -topic robot_description, -name, -x, -y, -z
     spawn = Node(

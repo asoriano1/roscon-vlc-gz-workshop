@@ -1,31 +1,30 @@
 # Ejercicio 6 — El mismo robot, con el Model Importer (12 min)
 
-Ya hay un robot que funciona, y se sabe lo que cuesta montarlo. Ahora, lo mismo desde la GUI.
+Ya funciona un robot montado a mano, y sabes lo que cuesta. Ahora repite lo mismo desde la GUI.
 
 ```bash
 cd $WS/robots && ros2 launch gz_model_importer gazebo_importer.launch.py \
   world:=$(ros2 pkg prefix mini_bot)/share/mini_bot/worlds/workshop.sdf
 ```
 
-El `cd $WS/robots` importa: el *Browse* se abre en la carpeta desde la que se lanza, y ahí están
+El `cd $WS/robots` importa: el *Browse* se abre en la carpeta desde la que lanzas, y ahí están
 los xacros del taller.
 
 ## Pasos
 
-1. **Browse** → `mini_bot.urdf.xacro`. Es un enlace al xacro escrito en los
-   ejercicios 1 a 5.
-2. El **preview**: la simulación está en pausa y el robot todavía no existe en el mundo.
-3. Los campos **Namespace** y **Frame prefix** salen de los `<xacro:arg>` del robot: el importer los detecta.
-4. *Namespace* `robot_a` y *Frame prefix* `robot_a/`, **con barra**. El importer propone
-   `mini_bot_1_`, con guion bajo: hay que borrarlo y escribirlo a mano. Colocar la pose y dejar
-   marcado **robot_state_publisher**.
-5. **Import**. La simulación se queda en pausa después de importar: hay que pulsar ▶ abajo a la izquierda.
+1. Pulsa **Browse** y elige `mini_bot.urdf.xacro`. Es un enlace al xacro de los ejercicios 1 a 5.
+2. Mira el **preview**: la simulación está en pausa y el robot todavía no existe en el mundo.
+3. Fíjate en los campos **Namespace** y **Frame prefix**: el importer los saca de los `<xacro:arg>` del robot.
+4. Escribe *Namespace* `robot_a` y *Frame prefix* `robot_a/`, **con barra**. El importer propone
+   `mini_bot_1_`, con guion bajo: bórralo y escríbelo a mano. Coloca la pose y deja marcado
+   **robot_state_publisher**.
+5. Pulsa **Import**. La simulación se queda en pausa después de importar: pulsa ▶ abajo a la izquierda.
 
-⏱️ Apuntar el tiempo y compararlo con el de los ejercicios 1 a 5.
+⏱️ Apunta el tiempo y compáralo con el de los ejercicios 1 a 5.
 
 ## Paso 2 — dos robots más
 
-Importar `robot_b` y `robot_c` en poses distintas, con prefijo `robot_b/` y `robot_c/`. Comprobación en otra terminal (`./setup/shell.sh` en la máquina propia, desde la raíz del repo):
+Importa `robot_b` y `robot_c` en poses distintas, con prefijo `robot_b/` y `robot_c/`. Compruébalo en otra terminal (lanza `./setup/shell.sh` en tu máquina, desde la raíz del repo):
 
 ```bash
 gz topic -l | grep -c robot_
@@ -43,10 +42,10 @@ los links tienen que llamarse igual: `robot_a/base_footprint`, `robot_a/base_lin
 ## Lo importante de este ejercicio
 
 El `sim.launch.py` del ejercicio 5 hace una cosa muy bien: **ese** robot, en **ese** mundo, con **esa**
-configuración. El importer no lo sustituye: sirve para la fase en la que todavía no se sabe
-qué robot se quiere, dónde ni con qué namespace. Cuando ya se sabe, el launch gana.
+configuración. El importer no lo sustituye: sirve para la fase en la que aún no está claro
+qué robot, dónde ni con qué namespace. Cuando eso está decidido, el launch gana.
 
 ## Micro-reto: el modelo roto
 
-Importar `broken/rb_broken_uris.urdf.xacro` y leer el informe de preflight.
+Importa `broken/rb_broken_uris.urdf.xacro` y lee el informe de preflight.
 ¿Qué ha detectado? ¿Por qué lo reporta en vez de arreglarlo?

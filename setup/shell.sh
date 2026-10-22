@@ -6,5 +6,5 @@ for name in roscon-workshop roscon-workshop-novnc; do
     exec docker exec -it -w /workshop "$name" bash
   fi
 done
-echo "No hay ningún contenedor del taller corriendo. Hay que arrancarlo antes con ./setup/run.sh (o run_novnc.sh)."
+echo "No hay ningún contenedor del taller corriendo. Arráncalo antes con ./setup/run.sh (o run_novnc.sh)."
 exit 1

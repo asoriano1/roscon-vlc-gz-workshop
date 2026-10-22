@@ -47,6 +47,6 @@ Los enunciados usan `$WS`, así que los comandos valen tal cual. Solo cambia est
 
 | En el enunciado | En nativo |
 |---|---|
-| `./setup/run.sh` | Nada: basta con abrir una terminal. |
-| `./setup/shell.sh` (otra terminal) | Abrir otra terminal; el `.bashrc` ya hace el `source`. |
-| Editar `mini_bot/` del repo en la máquina propia | Igual: `$WS/src/mini_bot` es un enlace al repo. |
+| `./setup/run.sh` | Nada: abre una terminal. |
+| `./setup/shell.sh` (otra terminal) | Abre otra terminal; el `.bashrc` ya hace el `source`. |
+| Editar `mini_bot/` del repo en tu máquina | Igual: `$WS/src/mini_bot` es un enlace al repo. |

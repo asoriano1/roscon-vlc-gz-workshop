@@ -193,9 +193,9 @@ El launch lo arranca todo a la vez, pero cada pieza espera a la anterior:
 2. El plugin de ros2_control nace con el robot. Su `controller_manager` espera también a
    `/robot_description`.
 3. Los spawners esperan al `controller_manager`.
-4. Los controladores solo se mueven si la simulación corre. Si está en pausa, hay que pulsar ▶.
+4. Los controladores solo se mueven si la simulación corre. Si está en pausa, pulsa ▶.
 
-Cuando algo no aparece, conviene recorrer esta lista de arriba abajo.
+Cuando algo no aparezca, recorre esta lista de arriba abajo.
 
 ## Lo mismo con la suite
 
