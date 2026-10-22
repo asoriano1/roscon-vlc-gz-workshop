@@ -122,6 +122,9 @@ Si algún paso falla, pon el post-it rojo y trabaja en el portátil de tu pareja
 
 - **Edita en tu máquina**, con tu editor de siempre, los ficheros de `mini_bot/` del repo. Los
   cambios se ven dentro del contenedor al momento, sin recompilar.
+- **Dentro del contenedor, `mini_bot` está en `$WS/src/mini_bot`** (`/workshop_ws/src/mini_bot`),
+  no en `/workshop`, que es donde arranca el prompt. `/workshop` solo tiene `exercises/`, `docs/`
+  y `broken/`, para consulta. Compruébalo con `ls $WS/src/mini_bot`.
 - **Ejecuta en el contenedor**: `ros2 launch`, `gz`, `colcon`. Las terminales ya salen con ROS 2
   cargado.
 - **Cuando un ejercicio diga "en otra terminal"**, abre otra terminal de tu máquina, ve a la raíz

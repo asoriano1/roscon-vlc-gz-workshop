@@ -79,9 +79,17 @@ check_setup.sh                 # debe terminar en CÓDIGO: OK-JAZZY-HARMONIC-SUI
 ```
 
 **Edita en tu máquina; el contenedor solo ejecuta.** La carpeta `mini_bot/` del repo se monta
-dentro del contenedor (en `/workshop_ws/src/mini_bot`): abre los ficheros con tu editor de siempre
-y los cambios se ven dentro al momento, sin recompilar. Como viven en tu disco, no se pierden al
-cerrar el contenedor.
+dentro del contenedor: abre los ficheros con tu editor de siempre y los cambios se ven dentro al
+momento, sin recompilar. Como viven en tu disco, no se pierden al cerrar el contenedor.
+
+Dentro del contenedor hay dos carpetas con nombre parecido:
+
+| Carpeta | Qué hay |
+|---|---|
+| `/workshop` | Donde arranca el prompt: `exercises/`, `docs/` y `broken/`, para consulta |
+| `/workshop_ws` (`$WS`) | El workspace de ROS 2. Tu `mini_bot` está en `$WS/src/mini_bot` |
+
+Compruébalo con `ls $WS/src/mini_bot`: es la misma carpeta que editas en tu máquina.
 
 **Para otra terminal dentro del contenedor**, lanza `./setup/shell.sh` desde la raíz del repo.
 Sale con ROS 2 y el workspace ya cargados. `tmux` también está en la imagen.
