@@ -27,7 +27,7 @@ git -C robotnik_description     checkout -q 4bc73425d090ead4591a7091e7ef7e7dc4fe
 git -C robotnik_sensors         checkout -q 11852f4f14d6e0a561117396187f7674ed33ab2b
 ln -s $REPO/mini_bot $WS/src/mini_bot
 cp $REPO/setup/rbsummit/rbsummit_control.urdf.xacro \
-   robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del ejercicio 9
+   robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del extra de Robotnik
 cd $WS && source /opt/ros/jazzy/setup.bash
 rosdep install --from-paths src --ignore-src -r -y && colcon build --symlink-install
 
@@ -39,8 +39,8 @@ export GZ_SIM_RESOURCE_PATH=$WS/install/mini_bot/share/mini_bot/worlds:$WS/insta
 EOF
 source ~/.bashrc
 
-# 4. La carpeta robots/ para el Browse del importer (ejercicios 6 y 9)
-mkdir -p $WS/robots && ln -s $WS/src/mini_bot/urdf/mini_bot.urdf.xacro $WS/robots/
+# 4. La carpeta robots/ para el Browse del importer (post-ejercicios y extra de Robotnik)
+mkdir -p $WS/robots && ln -s $WS/src/mini_bot/urdf/mini_bot.urdf.xacro $WS/src/mini_bot/urdf/mast_bot.urdf.xacro $WS/robots/
 for r in rbsummit/rbsummit rbvogui/rbvogui rbtheron/rbtheron rbkairos/rbkairos_plus; do
   ln -s $WS/src/robotnik_description/robots/$r.urdf.xacro $WS/robots/; done
 

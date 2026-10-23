@@ -1,7 +1,7 @@
 # Anatomía de un robot simulado
 
 Qué piezas intervienen desde que se escribe un xacro hasta que el robot conduce en Gazebo, qué
-hace cada una y cómo se hablan. Es el `sim.launch.py` del ejercicio 5, pieza a pieza.
+hace cada una y cómo se hablan. Es el `sim.launch.py` completo (el del preámbulo 3), pieza a pieza.
 
 Todo lo que dice "verificado" se ha comprobado con ese launch en marcha (`ros2 node list` y
 `ros2 topic info -v`), en la imagen del taller.
@@ -53,7 +53,7 @@ puertas entre ellos:
   **`robot_description`**, y es la única fuente de verdad. Todas las piezas siguientes leen el mismo.
 - **En el launch.** `Command(['xacro ', ..., ' namespace:=', ns, ' prefix:=', prefix])`. El xacro
   se expande al lanzar, así que los cambios se ven sin recompilar.
-- **Ejercicios:** el 1 (geometría), el 3 (sensores) y el 5 (`<ros2_control>`).
+- **Dónde:** preámbulo 1 (geometría), preámbulo 2 (sensores) y preámbulo 3 (`<ros2_control>`).
 
 ### 2. `robot_state_publisher`
 
@@ -68,7 +68,7 @@ puertas entre ellos:
       girado**, en `/joint_states`.
 - **Entra:** el parámetro `robot_description` y `/joint_states`. **Sale:** `/robot_description`,
   `/tf_static` y `/tf`. Verificado.
-- **Ejercicios:** el 1 (con RViz, sin Gazebo) y el 2.
+- **Dónde:** preámbulo 1, primero con RViz, sin Gazebo, y después con Gazebo.
 
 ### 3. Quién publica `/joint_states`: el *publisher* y el *broadcaster*
 
@@ -79,11 +79,11 @@ sacan los valores de sitios distintos:
 |---|---|---|
 | Qué es | Un nodo con una ventana de sliders | Un controlador de ros2_control |
 | De dónde saca los ángulos | De los sliders, que se mueven a mano | Del hardware: aquí, las ruedas de Gazebo |
-| Dónde aparece | `display.launch.py`, ejercicio 1 | `sim.launch.py`, ejercicio 5 |
+| Dónde aparece | `display.launch.py`, preámbulo 1 | `sim.launch.py`, preámbulo 3 |
 | Para qué | Comprobar la geometría sin simular | Que la TF de las ruedas siga al robot de verdad |
 
-Entre los ejercicios 2 y 4 no hay ninguno de los dos, así que las ruedas no tienen TF hasta el
-ejercicio 5.
+Desde que el robot entra en Gazebo (preámbulo 1) hasta el preámbulo 3 no hay ninguno de los
+dos, así que las ruedas no tienen TF.
 
 ### 4. Gazebo y el mundo
 
@@ -93,7 +93,7 @@ ejercicio 5.
   vienen en `workshop.sdf`.
 - **En el launch.** `IncludeLaunchDescription` de `ros_gz_sim/gz_sim.launch.py`, con
   `gz_args = ['-r ', mundo]`. El `-r` arranca la simulación, que si no empieza en pausa.
-- **Ejercicio:** el 2.
+- **Dónde:** preámbulo 1. Con la suite, el Model Importer.
 
 ### 5. `ros_gz_sim create`: el spawn
 
@@ -104,7 +104,7 @@ ejercicio 5.
   `-name` y la pose `-x -y -z -Y`.
 - **Lo que no hace:** nada en ROS 2. Después del spawn, el robot existe en Gazebo y en ROS 2 no
   aparece nada nuevo.
-- **Ejercicio:** el 2.
+- **Dónde:** preámbulo 1. Con la suite, el Model Importer.
 
 ### 6. Los sensores: `<sensor>` dentro de `<gazebo>`
 
@@ -113,7 +113,7 @@ ejercicio 5.
   nombre de `<topic>`. `gz topic -l` los ve; `ros2 topic list` no.
 - **`gz_frame_id`:** el `frame_id` que llevarán los mensajes, el link de la TF en el que hay que
   pintarlos.
-- **Ejercicio:** el 3.
+- **Dónde:** preámbulo 2 y ejercicio 2.
 
 ### 7. `ros_gz_bridge`
 
@@ -124,7 +124,7 @@ ejercicio 5.
   `use_sim_time: true` lo usan en vez de la hora del ordenador. Sin él, su reloj se queda en 0:
   la odometría sale con todas las marcas de tiempo a 0 y TF se queja (visto en la validación).
   Verificado: lo leen `robot_state_publisher`, `controller_manager` y los dos controladores.
-- **Ejercicio:** el 4.
+- **Dónde:** preámbulo 2 y ejercicio 2. Con la suite, el Bridge Manager.
 
 ### 8. `gz_ros2_control`: el plugin y el `controller_manager`
 
@@ -140,7 +140,7 @@ Es la tercera puerta, y la que tiene más piezas.
   (verificado: no hay un proceso aparte). Lee `controllers.yaml` y gestiona los controladores.
   Necesita el URDF, así que lo lee del topic `/robot_description`. Por eso **sin
   `robot_state_publisher` la simulación se queda congelada** esperándolo (verificado).
-- **Ejercicio:** el 5.
+- **Dónde:** preámbulo 3 y ejercicio 3. Con la suite, el Control Manager.
 
 ### 9. `spawner`
 
@@ -172,7 +172,7 @@ Es la tercera puerta, y la que tiene más piezas.
 
 ## Quién publica qué
 
-Verificado con el launch del ejercicio 5 en marcha, sin namespace:
+Verificado con el `sim.launch.py` completo en marcha, sin namespace:
 
 | Topic | Lo publica | Lo leen |
 |---|---|---|
@@ -222,4 +222,4 @@ Tres nombres distintos, que se confunden siempre:
 | Namespace | `/robot_a` | ROS 2: nodos y topics | Que haya un `/robot_a/scan` y un `/robot_b/scan` |
 | Prefijo de frames | `robot_a/` | TF: nombres de los links | Que en `/tf`, que es único para todos, no haya dos `base_link` |
 
-El porqué de la barra en el prefijo está en el ejercicio 6.
+El porqué de la barra en el prefijo está en el post-ejercicio 1.

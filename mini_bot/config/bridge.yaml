@@ -1,10 +1,11 @@
-# Puente Gazebo ↔ ROS 2 para mini_bot (ejercicio 4).
+# Puente Gazebo ↔ ROS 2 para mini_bot.
 #
-# ESQUELETO: el reloj ya está puesto como ejemplo. Faltan el LiDAR y la cámara.
-# Para ver los nombres reales de los topics de Gazebo:
-#     gz topic -l
+# Cada entrada copia un topic de un lado a otro: los dos nombres, los dos tipos y la dirección.
+# Los nombres de Gazebo son los del <topic> de cada <sensor> del xacro (gz topic -l los lista).
+# Son nombres absolutos (/scan): este fichero vale para un robot sin namespace.
 #
-# Solución completa en mini_bot/solutions/ex04/bridge.yaml
+# El reloj ya está activo: sin /clock en ROS 2, los nodos con use_sim_time se quedan en el
+# instante 0.
 
 - ros_topic_name: "/clock"
   gz_topic_name: "/clock"
@@ -12,11 +13,24 @@
   gz_type_name: "gz.msgs.Clock"
   direction: GZ_TO_ROS
 
-# TODO (4a): el LiDAR.
-#   tipo ROS: sensor_msgs/msg/LaserScan   tipo GZ: gz.msgs.LaserScan
+# PASO 9: el LiDAR, la cámara y la información de calibración de la cámara. Descomenta las
+# tres entradas (selecciónalas y Ctrl+/ en la mayoría de editores).
+# - ros_topic_name: "/scan"
+#   gz_topic_name: "/scan"
+#   ros_type_name: "sensor_msgs/msg/LaserScan"
+#   gz_type_name: "gz.msgs.LaserScan"
+#   direction: GZ_TO_ROS
 #
-# TODO (4b): la cámara.
-#   tipo ROS: sensor_msgs/msg/Image       tipo GZ: gz.msgs.Image
+# - ros_topic_name: "/camera/image"
+#   gz_topic_name: "/camera/image"
+#   ros_type_name: "sensor_msgs/msg/Image"
+#   gz_type_name: "gz.msgs.Image"
+#   direction: GZ_TO_ROS
 #
-# TODO (4c, opcional): el CameraInfo.
-#   tipo ROS: sensor_msgs/msg/CameraInfo  tipo GZ: gz.msgs.CameraInfo
+# - ros_topic_name: "/camera/camera_info"
+#   gz_topic_name: "/camera/camera_info"
+#   ros_type_name: "sensor_msgs/msg/CameraInfo"
+#   gz_type_name: "gz.msgs.CameraInfo"
+#   direction: GZ_TO_ROS
+
+# EJERCICIO 2: añade aquí las entradas de los sensores nuevos.

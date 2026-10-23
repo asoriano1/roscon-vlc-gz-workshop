@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<!--
+  mast_bot — el robot del ejercicio 3: un mini_bot con un mástil, y la cámara en lo alto, sobre
+  una cabeza que gira (mast_joint, ±90°). Llega con la geometría, el LiDAR, la cámara y el
+  control de las ruedas (diff_drive_controller). Le falta el control del mástil: ese es el
+  ejercicio.
+
+  Args:
+    namespace  prefijo de topics y nodos ROS 2        (por defecto: vacío)
+    prefix     prefijo de nombres de links = frames de TF (por defecto: vacío)
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mast_bot">
+
+  <xacro:arg name="namespace" default=""/>
+  <!-- prefix va solo en los links (son los frames de TF), con la forma que espera ros2_control:
+       namespace + barra (robot_a/). Los joints no lo llevan: viven dentro del robot, que ya tiene
+       su namespace, y controllers.yaml los nombra sin prefijo. -->
+  <xacro:arg name="prefix"    default=""/>
+  <xacro:property name="ns"     value="$(arg namespace)"/>
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+  <!-- Con namespace vacío los topics quedan /scan; con namespace, /robot_a/scan -->
+  <xacro:property name="tns" value="${'/' + ns if ns else ''}"/>
+
+  <xacro:include filename="$(find mini_bot)/urdf/inertials.xacro"/>
+
+  <!-- Medidas del robot, en un solo sitio -->
+  <xacro:property name="base_x"      value="0.40"/>
+  <xacro:property name="base_y"      value="0.30"/>
+  <xacro:property name="base_z"      value="0.10"/>
+  <xacro:property name="base_mass"   value="5.0"/>
+  <xacro:property name="wheel_r"     value="0.06"/>
+  <xacro:property name="wheel_l"     value="0.04"/>
+  <xacro:property name="wheel_mass"  value="0.5"/>
+  <xacro:property name="wheel_sep"   value="0.34"/>   <!-- separación entre ruedas -->
+  <xacro:property name="caster_r"    value="0.03"/>
+
+  <material name="body_grey"><color rgba="0.25 0.27 0.30 1.0"/></material>
+  <material name="accent_red"><color rgba="0.78 0.21 0.18 1.0"/></material>
+  <material name="dark"><color rgba="0.10 0.10 0.12 1.0"/></material>
+
+  <!-- ================================ GEOMETRÍA ================================= -->
+
+  <link name="${prefix}base_footprint"/>
+
+  <link name="${prefix}base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="${base_x} ${base_y} ${base_z}"/></geometry>
+      <material name="body_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="${base_x} ${base_y} ${base_z}"/></geometry>
+    </collision>
+    <xacro:box_inertia m="${base_mass}" x="${base_x}" y="${base_y}" z="${base_z}"/>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="${prefix}base_footprint"/>
+    <child  link="${prefix}base_link"/>
+    <origin xyz="0 0 ${wheel_r + base_z/2 - 0.02}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Una macro para las dos ruedas: cambia el lado y el signo de la Y -->
+  <xacro:macro name="wheel" params="side reflect">
+    <link name="${prefix}${side}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_r}" length="${wheel_l}"/></geometry>
+        <material name="dark"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry><cylinder radius="${wheel_r}" length="${wheel_l}"/></geometry>
+      </collision>
+      <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_r}" l="${wheel_l}"/>
+    </link>
+
+    <joint name="${side}_wheel_joint" type="continuous">
+      <parent link="${prefix}base_link"/>
+      <child  link="${prefix}${side}_wheel_link"/>
+      <origin xyz="0 ${reflect * wheel_sep/2} ${-base_z/2 + 0.02}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.05" friction="0.01"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel side="left"  reflect="1"/>
+  <xacro:wheel side="right" reflect="-1"/>
+
+  <link name="${prefix}caster_link">
+    <visual>
+      <geometry><sphere radius="${caster_r}"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <geometry><sphere radius="${caster_r}"/></geometry>
+    </collision>
+    <xacro:sphere_inertia m="0.2" r="${caster_r}"/>
+  </link>
+
+  <joint name="caster_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child  link="${prefix}caster_link"/>
+    <origin xyz="${base_x/2 - 0.05} 0 ${-base_z/2 - caster_r + 0.03}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Rozamiento bajo en la rueda loca, para que no arrastre -->
+  <gazebo reference="${prefix}caster_link">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+  <gazebo reference="${prefix}left_wheel_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+  <gazebo reference="${prefix}right_wheel_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <!-- ================================= LiDAR =================================== -->
+
+  <link name="${prefix}lidar_link">
+    <visual>
+      <geometry><cylinder radius="0.035" length="0.04"/></geometry>
+      <material name="accent_red"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.035" length="0.04"/></geometry>
+    </collision>
+    <xacro:cylinder_inertia m="0.15" r="0.035" l="0.04"/>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child  link="${prefix}lidar_link"/>
+    <origin xyz="0.10 0 ${base_z/2 + 0.02}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- LiDAR de baja resolución: 180 muestras a 5 Hz. Suficiente para ver el mundo,
+       barato para una GPU por software. -->
+  <gazebo reference="${prefix}lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <topic>${tns}/scan</topic>
+      <gz_frame_id>${prefix}lidar_link</gz_frame_id>
+      <update_rate>5</update_rate>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>180</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.5708</min_angle>
+            <max_angle>1.5708</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>8.0</max>
+          <resolution>0.02</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+  <!-- ================================ MÁSTIL =================================== -->
+  <!-- Un poste fijo sobre la base, y encima una cabeza que gira alrededor del eje vertical
+       (mast_joint, revolute, ±90°) con la cámara. -->
+
+  <xacro:property name="mast_h" value="0.30"/>
+
+  <link name="${prefix}mast_link">
+    <visual>
+      <origin xyz="0 0 ${mast_h/2}" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="${mast_h}"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${mast_h/2}" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="${mast_h}"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 ${mast_h/2}" rpy="0 0 0"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0015" ixy="0" ixz="0" iyy="0.0015" iyz="0" izz="0.00003"/>
+    </inertial>
+  </link>
+
+  <joint name="mast_base_joint" type="fixed">
+    <parent link="${prefix}base_link"/>
+    <child  link="${prefix}mast_link"/>
+    <origin xyz="-0.10 0 ${base_z/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="${prefix}mast_head_link">
+    <visual>
+      <geometry><box size="0.05 0.08 0.04"/></geometry>
+      <material name="accent_red"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.05 0.08 0.04"/></geometry>
+    </collision>
+    <xacro:box_inertia m="0.1" x="0.05" y="0.08" z="0.04"/>
+  </link>
+
+  <joint name="mast_joint" type="revolute">
+    <parent link="${prefix}mast_link"/>
+    <child  link="${prefix}mast_head_link"/>
+    <origin xyz="0 0 ${mast_h + 0.02}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="5.0" velocity="2.0"/>
+    <dynamics damping="0.1" friction="0.01"/>
+  </joint>
+
+  <link name="${prefix}mast_camera_link">
+    <xacro:box_inertia m="0.01" x="0.01" y="0.01" z="0.01"/>
+  </link>
+
+  <joint name="mast_camera_joint" type="fixed">
+    <parent link="${prefix}mast_head_link"/>
+    <child  link="${prefix}mast_camera_link"/>
+    <origin xyz="0.03 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- La cámara del mástil: 320 × 240 a 10 Hz, como la del morro del mini_bot. -->
+  <gazebo reference="${prefix}mast_camera_link">
+    <sensor name="mast_camera" type="camera">
+      <topic>${tns}/mast_camera/image</topic>
+      <gz_frame_id>${prefix}mast_camera_link</gz_frame_id>
+      <update_rate>10</update_rate>
+      <always_on>true</always_on>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>320</width>
+          <height>240</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>15.0</far>
+        </clip>
+      </camera>
+    </sensor>
+  </gazebo>
+
+  <!-- =============================== ros2_control ================================ -->
+  <!-- Las ruedas, como en el preámbulo 3. El mástil, todavía no. -->
+
+  <ros2_control name="${prefix}GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10.0</param>
+        <param name="max">10.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-10.0</param>
+        <param name="max">10.0</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <!-- EJERCICIO 3: pega aquí el joint del mástil. -->
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find mini_bot)/config/mast_controllers.yaml</parameters>
+      <ros>
+        <namespace>${ns}</namespace>
+      </ros>
+    </plugin>
+  </gazebo>
+
+</robot>

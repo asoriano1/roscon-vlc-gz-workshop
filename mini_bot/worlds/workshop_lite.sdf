@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!-- workshop_lite.sdf: workshop.sdf sin el panel de Robotnik (y sin sombras, como workshop.sdf).
-     Para portátiles muy justos y para el ejercicio 9. Mismo world name ("workshop"). -->
+     Para portátiles muy justos y para el extra de Robotnik. Mismo world name ("workshop"). -->
 <!--
   Robotnik-branded test world for gz_model_importer — Gazebo Harmonic (gz-sim 8)
 

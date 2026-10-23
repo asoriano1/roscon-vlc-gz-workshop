@@ -1,4 +1,4 @@
-"""mini_bot en RViz, sin Gazebo (ejercicio 1).
+"""mini_bot en RViz, sin Gazebo (preámbulo 1).
 
 Arranca robot_state_publisher, el joint_state_publisher_gui para mover las ruedas
 a mano, y RViz. Sirve para comprobar la geometría y el árbol de TF antes de simular.

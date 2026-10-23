@@ -1,4 +1,4 @@
-# Controladores de mini_bot (ejercicio 5).
+# Controladores de mini_bot (preámbulo 3).
 # El comodín /** hace que el fichero valga con y sin namespace.
 /**:
   controller_manager:

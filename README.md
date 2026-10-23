@@ -106,34 +106,37 @@ Una caja con dos ruedas, una rueda loca, un LiDAR de 180 muestras a 5 Hz y una c
 320 × 240 a 10 Hz. Sin mallas y con sensores baratos a propósito: así la simulación va fluida
 en un portátil sin GPU, y toda la atención queda en el flujo de trabajo, no en los polígonos.
 
-Constrúyelo por capas. En `mini_bot/urdf/mini_bot.urdf.xacro` está el esqueleto con los nombres
-de links y joints ya puestos, y en `mini_bot/solutions/exNN/`, la solución de cada ejercicio.
+En `mini_bot/urdf/mini_bot.urdf.xacro` está el robot entero, escrito y comentado por pasos que se
+activan a lo largo del taller. En `mini_bot/solutions/`, la solución de cada preámbulo y cada
+ejercicio.
 
 ## Programa
 
-| Hora | Bloque | Ejercicio |
+Tres secciones con la misma forma:
+
+1. **Preámbulo:** lo básico, ya escrito y comentado. Léelo, actívalo paso a paso y entiende qué
+   hace cada pieza.
+2. **Ejercicio:** un problema de verdad, resuelto a mano con launch files y configuración.
+3. **Post-ejercicio:** el mismo problema, resuelto con un plugin de la suite.
+
+| Hora | Bloque | Material |
 |---|---|---|
 | 0:00–0:10 | Presentación y preparación del entorno | |
-| 0:10–0:25 | Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
-| 0:25–0:40 | Geometría del mini_bot | [ex01](exercises/ex01_geometria/) |
-| 0:40–0:52 | Launch y primer spawn | [ex02](exercises/ex02_gazebo_launch/) |
-| 0:52–1:04 | Sensores en el URDF | [ex03](exercises/ex03_sensores/) |
-| 1:04–1:14 | Descanso | |
-| 1:14–1:29 | El puente, a mano | [ex04](exercises/ex04_bridge/) |
-| 1:29–1:44 | ros2_control y controladores | [ex05](exercises/ex05_control/) |
-| 1:44–1:56 | Model Importer | [reto A](exercises/reto_a_parking/) |
-| 1:56–2:08 | Bridge Manager | [ex07](exercises/ex07_bridge_manager/) |
-| 2:08–2:20 | Control Manager | [ex08](exercises/ex08_control_manager/) |
-| 2:20–2:35 | Robots de Robotnik | [ex09](exercises/ex09_robotnik/) |
-| 2:35–2:50 | Reto por parejas | [challenge](exercises/challenge/) |
-| 2:50–3:00 | Cierre | |
+| 0:10–0:20 | Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
+| 0:20–0:35 | **1. Spawn.** Preámbulo: un robot en Gazebo | [preámbulo 1](exercises/1_spawn/1_preambulo.md) |
+| 0:35–0:55 | Ejercicio 1: tres robots en el almacén | [ejercicio 1](exercises/1_spawn/2_ejercicio.md) |
+| 0:55–1:10 | Post-ejercicio 1: Model Importer | [post-ejercicio 1](exercises/1_spawn/3_post_ejercicio.md) |
+| 1:10–1:20 | Descanso | |
+| 1:20–1:32 | **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
+| 1:32–1:52 | Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
+| 1:52–2:05 | Post-ejercicio 2: Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
+| 2:05–2:17 | **3. Control.** Preámbulo: ros2_control | [preámbulo 3](exercises/3_control/1_preambulo.md) |
+| 2:17–2:37 | Ejercicio 3: el control del mástil | [ejercicio 3](exercises/3_control/2_ejercicio.md) |
+| 2:37–2:52 | Post-ejercicio 3: todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
+| 2:52–3:00 | Cierre | |
 
-**Extras opcionales**, para acabar antes de tiempo. Cada uno hace lo mismo a mano y con la suite:
-
-- [Un sensor más](exercises/extra_sensor/): añade una IMU y llévala a ROS 2, con el
-  `bridge.yaml` y con el Bridge Manager.
-- [Multi-robot a mano](exercises/extra_multirobot/): monta tres robots desde launch files, con sus
-  namespaces, prefijos y controladores.
+**Extra opcional**, fuera del horario: [robots de Robotnik](exercises/extra_robotnik/), robots
+reales con mallas y sensores completos, con el mismo flujo de la suite.
 
 Qué hace cada pieza (xacro, `robot_state_publisher`, `create`, bridge, ros2_control, controladores):
 [docs/anatomia.md](docs/anatomia.md).
@@ -142,10 +145,10 @@ Qué hace cada pieza (xacro, `robot_state_publisher`, `create`, bridge, ros2_con
 
 | Carpeta | Contenido |
 |---|---|
-| `mini_bot/` | El paquete ROS 2 del taller: esqueleto, soluciones por ejercicio, launch, configs y mundos |
-| `exercises/` | Un README por ejercicio, con pasos, comprobaciones y errores típicos |
+| `mini_bot/` | El paquete ROS 2 del taller: los robots (`mini_bot` y `mast_bot`), launch, configs, mundos y soluciones |
+| `exercises/` | Una carpeta por sección, con su preámbulo, su ejercicio y su post-ejercicio |
 | `setup/` | Dockerfile, scripts de arranque, instalación nativa y `check_setup.sh` |
-| `broken/` | Modelos rotos a propósito para los micro-retos |
+| `broken/` | Un modelo roto a propósito, para el informe de preflight del importer |
 | `docs/` | Guía del alumno y anatomía de un robot simulado |
 
 ## Licencia

@@ -1,0 +1,37 @@
+# Controladores de mast_bot (ejercicio 3): los de mini_bot, y aquí se añade el del mástil.
+# El comodín /** hace que el fichero valga con y sin namespace.
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 50  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      diff_drive_controller:
+        type: diff_drive_controller/DiffDriveController
+
+      # EJERCICIO 3 (1 de 2): declara aquí el controlador del mástil.
+
+  diff_drive_controller:
+    ros__parameters:
+      left_wheel_names: ["left_wheel_joint"]
+      right_wheel_names: ["right_wheel_joint"]
+
+      wheel_separation: 0.34
+      wheel_radius: 0.06
+
+      publish_rate: 50.0
+      odom_frame_id: odom
+      base_frame_id: base_footprint
+      enable_odom_tf: true
+      open_loop: false
+
+      linear.x.max_velocity: 1.0
+      linear.x.min_velocity: -1.0
+      linear.x.max_acceleration: 1.0
+      angular.z.max_velocity: 2.0
+      angular.z.min_velocity: -2.0
+      angular.z.max_acceleration: 2.0
+
+  # EJERCICIO 3 (2 de 2): pega aquí los parámetros del controlador del mástil.

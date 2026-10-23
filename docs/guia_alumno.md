@@ -1,29 +1,25 @@
 # Guía del alumno
 
-Esta es la puerta de entrada. El material de trabajo son los README de cada ejercicio, en
-`exercises/`.
+Esta es la puerta de entrada. El material de trabajo está en `exercises/`, una carpeta por
+sección.
 
 ## El taller, de un vistazo
 
-Construye un robot desde cero, hazlo funcionar en Gazebo a mano y después repite lo mismo con tres
-plugins de la GUI de Gazebo. Al final, mira cómo funcionan robots industriales reales con el mismo
-flujo.
+Construye un robot, hazlo funcionar en Gazebo a mano y resuelve con la suite lo mismo que acabas
+de resolver a mano. Tres secciones, cada una con tres partes:
 
-1. **A mano, ejercicios 1 a 5.**
-   - Dibuja `mini_bot` en xacro: una caja, dos ruedas y una rueda loca.
-   - Mételo en Gazebo con un launch.
-   - Añádele un LiDAR y una cámara.
-   - Conéctalos a ROS 2 con un puente.
-   - Condúcelo con ros2_control.
-   - Apunta el tiempo.
-2. **Con la suite, ejercicios 6 a 8.** Haz lo mismo con el *Model Importer*, el *Bridge Manager* y
-   el *ROS 2 Control Manager*, y con tres robots a la vez. Apunta de nuevo el tiempo.
-3. **Robots reales, ejercicio 9.** Demostración: un RB-Summit de Robotnik importado con el mismo
-   flujo.
-4. **Reto por parejas** (`exercises/challenge/`) y cierre.
+1. **Preámbulo:** lo básico, ya escrito y comentado. Actívalo paso a paso y entiende qué hace.
+2. **Ejercicio:** un problema de verdad, a mano. Al terminarlo, post-it verde.
+3. **Post-ejercicio:** el mismo problema con un plugin de la suite. Compara el tiempo.
 
-Al terminar antes de tiempo, prueba los tres **extras** opcionales de `exercises/extra_*`: aparcar el robot
-en una zona marcada, añadir un sensor y montar tres robots a mano con launch files.
+| Sección | Preámbulo | Ejercicio | Post-ejercicio |
+|---|---|---|---|
+| 1. Spawn | Un robot en Gazebo | Tres robots en el almacén | Model Importer |
+| 2. Sensores | Sensores y puente | Dos sensores más | Bridge Manager |
+| 3. Control | ros2_control | El control del mástil | Todo con la suite |
+
+Al terminar antes de tiempo, prueba el extra opcional: robots reales de Robotnik
+(`exercises/extra_robotnik/`).
 
 ## Prepara el entorno
 
@@ -113,7 +109,7 @@ en una zona marcada, añadir un sensor y montar tres robots a mano con launch fi
 
 7. **Abre tu editor** en la carpeta `mini_bot/` del repo, **en tu máquina**. Edita solo
    ahí.
-8. **Abre el enunciado del ejercicio 1**: `exercises/ex01_geometria/README.md`, en el editor o en
+8. **Abre el preámbulo 1**: `exercises/1_spawn/1_preambulo.md`, en el editor o en
    GitHub.
 
 Si algún paso falla, pon el post-it rojo y trabaja en el portátil de tu pareja mientras tanto.
@@ -137,7 +133,16 @@ Si algún paso falla, pon el post-it rojo y trabaja en el portátil de tu pareja
 
 - **Por parejas.** Tu compañero es tu primer soporte técnico.
 - **Regla de los 3 minutos.** Tres minutos atascado → copia la solución y sigue. Están en
-  `mini_bot/solutions/exNN/`. Cada ejercicio necesita el anterior funcionando.
+  `mini_bot/solutions/`, una carpeta por preámbulo y por ejercicio. Copia sus ficheros encima de
+  los tuyos, en tu máquina y desde la raíz del repo (cambia `preambulo_2` por la que toque):
+
+  ```bash
+  S=mini_bot/solutions/preambulo_2
+  cp $S/*.xacro mini_bot/urdf/; cp $S/*.launch.py mini_bot/launch/; cp $S/*.yaml mini_bot/config/
+  ```
+
+  Si alguno de los `cp` dice que no hay ficheros de ese tipo, no pasa nada. Los pasos siguientes
+  siguen ahí, comentados. Cada parte necesita la anterior funcionando.
 - **Semáforo.** Pon el post-it verde en la pantalla al terminar un paso, y el rojo ante un atasco.
 - **No maximices Gazebo.** Sin tarjeta gráfica, una ventana grande lo hace todo más lento.
 

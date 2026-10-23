@@ -83,10 +83,11 @@ RUN chmod +x /usr/local/bin/check_setup.sh /usr/local/bin/entrypoint.sh
 RUN echo 'source /usr/local/share/workshop_env.sh' >> /root/.bashrc
 
 # Los robots del taller en una carpeta corta: el Browse del importer se abre en el directorio
-# desde el que se lanzó Gazebo (los ejercicios 6 y 9 lo lanzan desde $WS/robots). Son enlaces, así que
-# el de mini_bot apunta a lo que el participante edita en su máquina.
+# desde el que se lanzó Gazebo (los post-ejercicios lo lanzan desde $WS/robots). Son enlaces, así que
+# los de mini_bot y mast_bot apuntan a lo que el participante edita en su máquina.
 RUN mkdir -p ${WS}/robots \
  && ln -s ${WS}/src/mini_bot/urdf/mini_bot.urdf.xacro ${WS}/robots/mini_bot.urdf.xacro \
+ && ln -s ${WS}/src/mini_bot/urdf/mast_bot.urdf.xacro ${WS}/robots/mast_bot.urdf.xacro \
  && for r in rbsummit/rbsummit rbvogui/rbvogui rbtheron/rbtheron rbkairos/rbkairos_plus; do \
       ln -s ${WS}/src/robotnik_description/robots/$r.urdf.xacro ${WS}/robots/; \
     done
