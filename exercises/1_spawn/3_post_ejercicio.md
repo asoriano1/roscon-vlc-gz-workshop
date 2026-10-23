@@ -23,8 +23,8 @@ los xacros del taller.
 
 1. Pulsa **Browse** y elige `mini_bot.urdf.xacro`. Es un enlace al mismo xacro que has editado.
 2. Aparece el **preview** y la simulación queda congelada: el robot todavía no existe en el mundo.
-3. Haz clic en el robot del preview. Con **Translate** (tecla `T`), arrástralo hasta su estación.
-   Con **Rotate** (tecla `R`), gíralo hasta que mire al cargador.
+3. Haz clic en el robot del preview. Con **Translate**, en la barra de herramientas de Gazebo,
+   arrástralo hasta su estación. Con **Rotate**, gíralo hasta que mire al cargador.
 4. Mira los campos **Pose** del importer: se han rellenado solos con la posición del preview.
 5. Escribe *Namespace* `robot_a` y *Frame prefix* `robot_a/`, **con barra**. El importer los saca
    de los `<xacro:arg>` del robot y propone `mini_bot_1_`, con guion bajo: bórralo y escríbelo a
@@ -74,7 +74,7 @@ Importa `broken/rb_broken_uris.urdf.xacro` y lee el informe de preflight. ¿Qué
 | Síntoma | Causa |
 |---|---|
 | Un robot importado no hace nada | La simulación se queda en pausa después de importar: pulsa ▶ |
-| El robot del preview no se mueve al arrastrarlo | Haz clic primero en el robot para seleccionarlo, y después pulsa `T` |
+| El robot del preview no se mueve al arrastrarlo | Haz clic primero en el robot para seleccionarlo, y después elige **Translate** en la barra de herramientas |
 | El *Browse* no enseña los xacros | Gazebo se lanzó desde otra carpeta: relánzalo con `cd $WS/robots && …` |
 | Falta un robot | Mismo nombre de modelo que otro: Gazebo lo descarta sin avisar (`gz model --list`) |
 | El campo de ruta del diálogo de ficheros sale con texto raro | Conserva lo que se escribió la vez anterior: Ctrl+A antes de escribir |
