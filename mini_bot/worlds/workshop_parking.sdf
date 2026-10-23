@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
-<!-- workshop_zona.sdf: workshop.sdf con una zona de aparcamiento pintada en el suelo, para el extra
-     "Aparca en la zona". Mismo world name ("workshop"). La zona es solo visual (sin colisión) y
-     mide poco más que el robot: 0,55 × 0,50 m. La flecha marca hacia dónde tiene que mirar.
-     La pose objetivo no se da en el enunciado: el ejercicio consiste en encontrarla. -->
+<!-- workshop_parking.sdf: workshop.sdf con tres plazas de aparcamiento pintadas en el suelo, para
+     el reto A. Mismo world name ("workshop"). Cada plaza mide 0,55 × 0,50 m, poco más que el robot,
+     y su flecha marca hacia dónde tiene que mirar. Las poses no se dan en el enunciado: el reto
+     consiste en encontrarlas.
+       amarilla  x  1.0  y -2.6  yaw  2.356
+       azul      x -1.2  y  2.2  yaw -1.571
+       verde     x  2.6  y  2.6  yaw  0.524 -->
 <sdf version="1.9">
 <world name="workshop">
 
@@ -481,28 +484,70 @@
     </link>
   </model>
 
-  <model name="zona_aparcamiento">
+  <!-- Parking del reto A: tres plazas pintadas en el suelo, solo visuales (sin colisión), en un
+       único modelo para que la pose de cada plaza no se pueda consultar con gz model. -->
+  <model name="parking">
     <static>true</static>
-    <pose>1.0 -2.6 0 0 0 2.356</pose>
+    <pose>0 0 0 0 0 0</pose>
     <link name="link">
-      <visual name="zona">
-        <pose>0 0 0.002 0 0 0</pose>
-        <geometry><box><size>0.55 0.50 0.004</size></box></geometry>
+      <visual name="amarilla_zona">
+        <pose>1.0000 -2.6000 0.002 0 0 2.3560</pose>
+        <geometry><box><size>0.55 0.5 0.004</size></box></geometry>
         <material><ambient>0.95 0.75 0.1 1</ambient><diffuse>0.95 0.75 0.1 1</diffuse></material>
       </visual>
-      <visual name="flecha">
-        <pose>0.03 0 0.005 0 0 0</pose>
-        <geometry><box><size>0.30 0.03 0.004</size></box></geometry>
+      <visual name="amarilla_flecha">
+        <pose>0.9788 -2.5788 0.005 0 0 2.3560</pose>
+        <geometry><box><size>0.3 0.03 0.004</size></box></geometry>
         <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
       </visual>
-      <visual name="punta_izq">
-        <pose>0.145 0.035 0.005 0 0 -0.785</pose>
-        <geometry><box><size>0.10 0.03 0.004</size></box></geometry>
+      <visual name="amarilla_punta_izq">
+        <pose>0.8727 -2.5222 0.005 0 0 1.5710</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
         <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
       </visual>
-      <visual name="punta_der">
-        <pose>0.145 -0.035 0.005 0 0 0.785</pose>
-        <geometry><box><size>0.10 0.03 0.004</size></box></geometry>
+      <visual name="amarilla_punta_der">
+        <pose>0.9222 -2.4727 0.005 0 0 3.1410</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="azul_zona">
+        <pose>-1.2000 2.2000 0.002 0 0 -1.5710</pose>
+        <geometry><box><size>0.55 0.5 0.004</size></box></geometry>
+        <material><ambient>0.15 0.45 0.9 1</ambient><diffuse>0.15 0.45 0.9 1</diffuse></material>
+      </visual>
+      <visual name="azul_flecha">
+        <pose>-1.2000 2.1700 0.005 0 0 -1.5710</pose>
+        <geometry><box><size>0.3 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="azul_punta_izq">
+        <pose>-1.1650 2.0550 0.005 0 0 -2.3560</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="azul_punta_der">
+        <pose>-1.2350 2.0550 0.005 0 0 -0.7860</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="verde_zona">
+        <pose>2.6000 2.6000 0.002 0 0 0.5240</pose>
+        <geometry><box><size>0.55 0.5 0.004</size></box></geometry>
+        <material><ambient>0.2 0.7 0.25 1</ambient><diffuse>0.2 0.7 0.25 1</diffuse></material>
+      </visual>
+      <visual name="verde_flecha">
+        <pose>2.6260 2.6150 0.005 0 0 0.5240</pose>
+        <geometry><box><size>0.3 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="verde_punta_izq">
+        <pose>2.7080 2.7029 0.005 0 0 -0.2610</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="verde_punta_der">
+        <pose>2.7431 2.6422 0.005 0 0 1.3090</pose>
+        <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
         <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
       </visual>
     </link>

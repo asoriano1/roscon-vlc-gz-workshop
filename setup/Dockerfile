@@ -96,6 +96,7 @@ RUN mkdir -p ${WS}/robots \
 # del RB-Summit (cámara, LiDAR, GPS, IMU) no cargan en Gazebo.
 ENV GZ_SIM_RESOURCE_PATH=${WS}/install/mini_bot/share/mini_bot/worlds:${WS}/install/robotnik_description/share:${WS}/install/robotnik_sensors/share
 ENV QT_SCALE_FACTOR=1.0
-WORKDIR /workshop
+# El prompt arranca en el workspace: ahí se compila y se lanza.
+WORKDIR ${WS}
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["bash"]

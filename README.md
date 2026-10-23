@@ -86,8 +86,8 @@ Dentro del contenedor hay dos carpetas con nombre parecido:
 
 | Carpeta | Qué hay |
 |---|---|
-| `/workshop` | Donde arranca el prompt: `exercises/`, `docs/` y `broken/`, para consulta |
-| `/workshop_ws` (`$WS`) | El workspace de ROS 2. Tu `mini_bot` está en `$WS/src/mini_bot` |
+| `/workshop_ws` (`$WS`) | Donde arranca el prompt. El workspace de ROS 2: aquí se compila (`colcon build`). Tu `mini_bot` está en `src/mini_bot` |
+| `/workshop` | `exercises/`, `docs/` y `broken/`, para consulta |
 
 Compruébalo con `ls $WS/src/mini_bot`: es la misma carpeta que editas en tu máquina.
 
@@ -121,7 +121,7 @@ de links y joints ya puestos, y en `mini_bot/solutions/exNN/`, la solución de c
 | 1:04–1:14 | Descanso | |
 | 1:14–1:29 | El puente, a mano | [ex04](exercises/ex04_bridge/) |
 | 1:29–1:44 | ros2_control y controladores | [ex05](exercises/ex05_control/) |
-| 1:44–1:56 | Model Importer | [ex06](exercises/ex06_importer/) |
+| 1:44–1:56 | Model Importer | [reto A](exercises/reto_a_parking/) |
 | 1:56–2:08 | Bridge Manager | [ex07](exercises/ex07_bridge_manager/) |
 | 2:08–2:20 | Control Manager | [ex08](exercises/ex08_control_manager/) |
 | 2:20–2:35 | Robots de Robotnik | [ex09](exercises/ex09_robotnik/) |
@@ -130,8 +130,6 @@ de links y joints ya puestos, y en `mini_bot/solutions/exNN/`, la solución de c
 
 **Extras opcionales**, para acabar antes de tiempo. Cada uno hace lo mismo a mano y con la suite:
 
-- [Aparca en la zona](exercises/extra_zona/): deja el robot en una zona marcada, primero
-  adivinando coordenadas desde la consola y después arrastrándolo con el ratón en el importer.
 - [Un sensor más](exercises/extra_sensor/): añade una IMU y llévala a ROS 2, con el
   `bridge.yaml` y con el Bridge Manager.
 - [Multi-robot a mano](exercises/extra_multirobot/): monta tres robots desde launch files, con sus

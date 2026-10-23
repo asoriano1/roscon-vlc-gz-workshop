@@ -89,7 +89,7 @@ en una zona marcada, añadir un sensor y montar tres robots a mano con launch fi
    ./setup/run_novnc.sh    # macOS, Windows, o si run.sh no abre ventanas
    ```
 
-   El prompt cambia a `root@…:/workshop#`: la terminal ya está **dentro del contenedor**. Con
+   El prompt cambia a `root@…:/workshop_ws#`: la terminal ya está **dentro del contenedor**. Con
    `run_novnc.sh`, las ventanas se ven en el navegador, en http://localhost:6080/vnc.html.
    Esta es tu **terminal 1**.
 
@@ -122,14 +122,14 @@ Si algún paso falla, pon el post-it rojo y trabaja en el portátil de tu pareja
 
 - **Edita en tu máquina**, con tu editor de siempre, los ficheros de `mini_bot/` del repo. Los
   cambios se ven dentro del contenedor al momento, sin recompilar.
-- **Dentro del contenedor, `mini_bot` está en `$WS/src/mini_bot`** (`/workshop_ws/src/mini_bot`),
-  no en `/workshop`, que es donde arranca el prompt. `/workshop` solo tiene `exercises/`, `docs/`
-  y `broken/`, para consulta. Compruébalo con `ls $WS/src/mini_bot`.
+- **El prompt arranca en el workspace de ROS 2**, `/workshop_ws` (también `$WS`): ahí se compila
+  con `colcon build`. Tu `mini_bot` está en `src/mini_bot`; compruébalo con `ls src/mini_bot`.
+  En `/workshop` hay copias de `exercises/`, `docs/` y `broken/`, para consulta.
 - **Ejecuta en el contenedor**: `ros2 launch`, `gz`, `colcon`. Las terminales ya salen con ROS 2
   cargado.
 - **Cuando un ejercicio diga "en otra terminal"**, abre otra terminal de tu máquina, ve a la raíz
   del repo y lanza `./setup/shell.sh`. Entra en el mismo contenedor.
-- **¿Contenedor o máquina?** Si el prompt empieza por `root@` y acaba en `/workshop#` o similar,
+- **¿Contenedor o máquina?** Si el prompt empieza por `root@` y acaba en `/workshop_ws#` o similar,
   es el contenedor. Si sale tu usuario, es tu máquina, y ahí no hay ROS 2.
 - Al cerrar el contenedor, tus ficheros siguen en tu disco.
 
