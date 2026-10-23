@@ -6,7 +6,7 @@ name: Imagen del taller
 on:
   push:
     branches: [main]
-    paths: ['setup/**', 'mini_bot/**', 'exercises/**', 'broken/**', 'docs/**', '.github/workflows/imagen.yml']
+    paths: ['setup/**', 'mini_bot/**', 'exercises/**', 'docs/**', '.github/workflows/imagen.yml']
   workflow_dispatch:
 
 env:

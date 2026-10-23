@@ -69,9 +69,8 @@ RUN source /opt/ros/jazzy/setup.bash \
 COPY setup/rbsummit/rbsummit_control.urdf.xacro \
      ${WS}/src/robotnik_description/simulators/gazebo_ignition/rbsummit/rbsummit_control.urdf.xacro
 
-# Material del taller (ejercicios, mundos, modelos rotos, chuleta)
+# Material del taller (ejercicios y documentación)
 COPY exercises /workshop/exercises
-COPY broken    /workshop/broken
 COPY docs      /workshop/docs
 COPY setup/check_setup.sh /usr/local/bin/check_setup.sh
 COPY setup/entrypoint.sh  /usr/local/bin/entrypoint.sh

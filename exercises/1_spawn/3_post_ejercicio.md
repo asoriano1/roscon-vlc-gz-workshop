@@ -78,11 +78,6 @@ de mover. El importer ahorra el *setup* de cada robot: el xacro con sus argument
 corre. El launch es lo que se versiona y se repite. El importer sirve para probar modelos y montar
 escenas; cuando una escena funciona, sus números pasan al launch.
 
-## Si sobra tiempo: el modelo roto
-
-Importa `broken/rb_broken_uris.urdf.xacro` y lee el informe de preflight. ¿Qué ha detectado?
-¿Por qué lo reporta en vez de arreglarlo?
-
 ## Errores típicos
 
 | Síntoma | Causa |

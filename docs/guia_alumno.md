@@ -120,7 +120,7 @@ Si algún paso falla, pon el post-it rojo y trabaja en el portátil de tu pareja
   cambios se ven dentro del contenedor al momento, sin recompilar.
 - **El prompt arranca en el workspace de ROS 2**, `/workshop_ws` (también `$WS`): ahí se compila
   con `colcon build`. Tu `mini_bot` está en `src/mini_bot`; compruébalo con `ls src/mini_bot`.
-  En `/workshop` hay copias de `exercises/`, `docs/` y `broken/`, para consulta.
+  En `/workshop` hay copias de `exercises/` y `docs/`, para consulta.
 - **Ejecuta en el contenedor**: `ros2 launch`, `gz`, `colcon`. Las terminales ya salen con ROS 2
   cargado.
 - **Cuando un ejercicio diga "en otra terminal"**, abre otra terminal de tu máquina, ve a la raíz

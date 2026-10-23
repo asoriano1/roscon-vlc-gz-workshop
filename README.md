@@ -87,7 +87,7 @@ Dentro del contenedor hay dos carpetas con nombre parecido:
 | Carpeta | Qué hay |
 |---|---|
 | `/workshop_ws` (`$WS`) | Donde arranca el prompt. El workspace de ROS 2: aquí se compila (`colcon build`). Tu `mini_bot` está en `src/mini_bot` |
-| `/workshop` | `exercises/`, `docs/` y `broken/`, para consulta |
+| `/workshop` | `exercises/` y `docs/`, para consulta |
 
 Compruébalo con `ls $WS/src/mini_bot`: es la misma carpeta que editas en tu máquina.
 
@@ -148,7 +148,6 @@ Qué hace cada pieza (xacro, `robot_state_publisher`, `create`, bridge, ros2_con
 | `mini_bot/` | El paquete ROS 2 del taller: los robots (`mini_bot` y `mast_bot`), launch, configs, mundos y soluciones |
 | `exercises/` | Una carpeta por sección, con su preámbulo, su ejercicio y su post-ejercicio |
 | `setup/` | Dockerfile, scripts de arranque, instalación nativa y `check_setup.sh` |
-| `broken/` | Un modelo roto a propósito, para el informe de preflight del importer |
 | `docs/` | Guía del alumno y anatomía de un robot simulado |
 
 ## Licencia
