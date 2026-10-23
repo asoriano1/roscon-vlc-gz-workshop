@@ -1,4 +1,4 @@
-# Ejercicio 1 — Tres robots en el almacén (20 min)
+# Ejercicio 1 — Tres robots en el almacén (15 min)
 
 **El problema:** un almacén con estanterías, pasillos de 1 m y tres estaciones de carga
 (amarilla, azul y verde). Lanza tres `mini_bot` con un solo launch y deja cada uno en su
@@ -8,9 +8,6 @@ estación: entero sobre la placa y mirando a su cargador.
 
 **Archivo que editas:** `mini_bot/launch/almacen.launch.py`
 **Solución:** `mini_bot/solutions/ejercicio_1/almacen.launch.py`
-
-> **No abras `workshop_almacen.sdf`.** Las poses de las estaciones están ahí escritas, y la
-> segunda parte del ejercicio consiste justo en no saberlas.
 
 ## Antes de empezar
 
@@ -47,25 +44,20 @@ de otro. Cada robot necesita su propia pose.
 
 ## Parte 2 — Cada uno en su estación
 
-Pon cada robot en su estación: cambia `-x`, `-y` y `-Y` en su `create`, guarda, Ctrl+C y vuelve a
-lanzar. Repite hasta que los tres queden **sobre su placa y mirando al cargador**. El frontal del
-robot es el de la franja roja.
+El plano del almacén da la pose de cada estación. Escríbela en el `create` de cada robot
+(`-x`, `-y` y `-Y`), guarda, Ctrl+C y vuelve a lanzar.
 
-| Robot | Estación |
-|---|---|
-| `robot_a` | amarilla |
-| `robot_b` | azul |
-| `robot_c` | verde |
+| Robot | Estación | x | y | Orientación |
+|---|---|---|---|---|
+| `robot_a` | amarilla | 3.45 | -1.10 | 0° |
+| `robot_b` | azul | -1.00 | -2.15 | -90° |
+| `robot_c` | verde | -1.60 | 1.50 | 135° |
 
-⏱️ Apunta el tiempo y el número de intentos.
+La orientación del plano va en grados, y `-Y` la quiere en **radianes**: conviértela
+(180° son π, 3.1416). Positivo es giro a la izquierda, visto desde arriba.
 
-Pistas:
-
-- La rejilla del suelo de Gazebo es de 1 m. Mirando hacia el panel de Robotnik, delante es +Y y
-  a la derecha, +X.
-- `-Y` va en radianes: 90° son 1.571 y 180° son 3.142. Positivo, giro a la izquierda.
-- Si el robot nace encima de un cargador o de una estantería, sale despedido: los cargadores y las
-  estanterías tienen colisión. Las placas del suelo, no.
+Comprueba en Gazebo que los tres quedan **sobre su placa y mirando al cargador**. El frontal del
+robot es el de la franja roja. Si uno mira hacia otro lado, revisa su `-Y`.
 
 ## Comprueba
 
@@ -76,6 +68,14 @@ ros2 topic list | grep robot_description  # tres /robot_x/robot_description
 ```
 
 Cuando los tres estén en su estación, **pon el post-it verde**.
+
+## Por qué la barra en el prefijo
+
+El prefijo es `robot_a/`, con barra, y no `robot_a_`. `diff_drive_controller`, el controlador de
+la sección 3, publica la odometría como `robot_a/odom → robot_a/base_footprint`: cuando corre en
+un namespace, prefija sus frames con el namespace y una barra. Para que ese TF enlace con el URDF,
+los links tienen que llamarse igual: `robot_a/base_footprint`, `robot_a/base_link`… Con
+`robot_a_` habría dos árboles sueltos.
 
 ## Preguntas
 
@@ -92,4 +92,5 @@ Cuando los tres estén en su estación, **pon el post-it verde**.
 | Sale solo `robot_a` | Los nodos nuevos no están en las listas del final del launch |
 | Falta un robot, y `create` dice `Entity creation successful` | Dos `-name` iguales: Gazebo descarta el segundo sin avisar. Revisa el `-name` de cada bloque copiado |
 | El robot cae girado, pero no como se esperaba | `-Y` va en radianes, no en grados |
+| El robot queda mirando al revés | El signo de `-Y`: positivo gira a la izquierda |
 | Un robot sale despedido al aparecer | Ha nacido dentro de un cargador o de una estantería: ajusta la pose |

@@ -3,10 +3,12 @@
      sin obstáculos sueltos y con un almacén: cuatro estanterías con pasillos de 1 m, dos paredes y
      tres estaciones de carga. Cada estación es una placa de 0,55 × 0,50 m (solo visual) con su
      cargador delante (con colisión): el robot tiene que quedar sobre la placa, mirando al cargador.
-     Las poses no se dan en el enunciado: el ejercicio consiste en encontrarlas.
+     Las poses están en la tabla del enunciado del ejercicio 1.
        amarilla  x  3.45  y -1.10  yaw  0      (fondo del primer pasillo)
        azul      x -1.00  y -2.15  yaw -1.571  (contra la pared sur)
-       verde     x -1.60  y  1.50  yaw  2.356  (frente a un poste) -->
+       verde     x -1.60  y  1.50  yaw  2.356  (frente a un poste)
+     Y una zona de recepción de 2,2 × 1,6 m en (-1.0, -0.3), donde se dejan los robots de Robotnik
+     en el post-ejercicio 1. -->
 <sdf version="1.9">
 <world name="workshop">
 
@@ -521,8 +523,8 @@
     </link>
   </model>
 
-  <!-- Las tres estaciones de carga pintadas en el suelo: solo visuales, en un único modelo para que
-       su pose no se pueda consultar con gz model. -->
+  <!-- Las tres estaciones de carga y la zona de recepción, pintadas en el suelo: solo visuales, en
+       un único modelo. -->
   <model name="estaciones">
     <static>true</static>
     <link name="link">
@@ -584,6 +586,32 @@
       <visual name="verde_punta_der">
         <pose>-1.6778 1.6273 0.0050 0 0 3.1410</pose>
         <geometry><box><size>0.1 0.03 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <!-- La zona de recepción: blanca con borde oscuro. -->
+      <visual name="recepcion_zona">
+        <pose>-1.0000 -0.3000 0.0020 0 0 0</pose>
+        <geometry><box><size>2.2 1.6 0.004</size></box></geometry>
+        <material><ambient>0.92 0.92 0.92 1</ambient><diffuse>0.92 0.92 0.92 1</diffuse></material>
+      </visual>
+      <visual name="recepcion_borde_n">
+        <pose>-1.0000 0.4750 0.0050 0 0 0</pose>
+        <geometry><box><size>2.2 0.05 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="recepcion_borde_s">
+        <pose>-1.0000 -1.0750 0.0050 0 0 0</pose>
+        <geometry><box><size>2.2 0.05 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="recepcion_borde_e">
+        <pose>0.0750 -0.3000 0.0050 0 0 0</pose>
+        <geometry><box><size>0.05 1.6 0.004</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="recepcion_borde_o">
+        <pose>-2.0750 -0.3000 0.0050 0 0 0</pose>
+        <geometry><box><size>0.05 1.6 0.004</size></box></geometry>
         <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
       </visual>
     </link>

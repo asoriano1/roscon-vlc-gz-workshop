@@ -2,16 +2,17 @@
 
 Abre el almacén y mete un robot, robot_a, en la pose (0, 0, 0). El ejercicio:
   1. Repite el bloque de robot_a para robot_b y robot_c, y lánzalos los tres.
-  2. Encuentra la pose de cada estación de carga y escríbela en el launch.
+  2. Pon cada robot en su estación, con las poses de la tabla del enunciado.
 
   ros2 launch mini_bot almacen.launch.py
 
 Solución en  mini_bot/solutions/ejercicio_1/almacen.launch.py
 """
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, PathJoinSubstitution
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -22,10 +23,14 @@ def generate_launch_description():
     xacro_file = PathJoinSubstitution([pkg, 'urdf', 'mini_bot.urdf.xacro'])
 
     # ── El mundo: una vez, para todos los robots ──────────────────────────────────────────────
+    # gazebo:=false no abre Gazebo y mete los robots en el que ya esté abierto (el del importer,
+    # en el post-ejercicio 1): create busca solo el mundo en marcha.
+    gazebo_arg = DeclareLaunchArgument('gazebo', default_value='true')
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'])),
         launch_arguments={'gz_args': ['-r ', PathJoinSubstitution([pkg, 'worlds', 'workshop_almacen.sdf'])]}.items(),
+        condition=IfCondition(LaunchConfiguration('gazebo')),
     )
 
     # ── robot_a: estación amarilla ──────────────────────────────────────────────────────────────
@@ -47,8 +52,8 @@ def generate_launch_description():
     )
 
     # -topic robot_description es relativo: con namespace robot_a, lee /robot_a/robot_description.
-    # TODO (parte 2): la pose de la estación amarilla. -Y es el giro alrededor del eje vertical,
-    # en radianes.
+    # TODO (parte 2): la pose de la estación amarilla, de la tabla del enunciado. -Y es el giro
+    # alrededor del eje vertical, en radianes.
     robot_a_spawn = Node(
         package='ros_gz_sim',
         executable='create',
@@ -73,6 +78,7 @@ def generate_launch_description():
     ])
 
     return LaunchDescription([
+        gazebo_arg,
         gazebo,
         robot_a_state_publisher,
         spawns,

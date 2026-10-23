@@ -222,4 +222,4 @@ Tres nombres distintos, que se confunden siempre:
 | Namespace | `/robot_a` | ROS 2: nodos y topics | Que haya un `/robot_a/scan` y un `/robot_b/scan` |
 | Prefijo de frames | `robot_a/` | TF: nombres de los links | Que en `/tf`, que es único para todos, no haya dos `base_link` |
 
-El porqué de la barra en el prefijo está en el post-ejercicio 1.
+El porqué de la barra en el prefijo está en el ejercicio 1.

@@ -8,9 +8,10 @@ Poses de las estaciones (las mismas que en worlds/workshop_almacen.sdf):
   verde     robot_c   x -1.60  y  1.50  yaw  2.356
 """
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, PathJoinSubstitution
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
@@ -21,10 +22,14 @@ def generate_launch_description():
     xacro_file = PathJoinSubstitution([pkg, 'urdf', 'mini_bot.urdf.xacro'])
 
     # ── El mundo: una vez, para todos los robots ──────────────────────────────────────────────
+    # gazebo:=false no abre Gazebo y mete los robots en el que ya esté abierto (el del importer,
+    # en el post-ejercicio 1): create busca solo el mundo en marcha.
+    gazebo_arg = DeclareLaunchArgument('gazebo', default_value='true')
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'])),
         launch_arguments={'gz_args': ['-r ', PathJoinSubstitution([pkg, 'worlds', 'workshop_almacen.sdf'])]}.items(),
+        condition=IfCondition(LaunchConfiguration('gazebo')),
     )
 
     # ── robot_a: estación amarilla ───────────────────────────────────────────────────────────────
@@ -125,6 +130,7 @@ def generate_launch_description():
     ])
 
     return LaunchDescription([
+        gazebo_arg,
         gazebo,
         robot_a_state_publisher,
         robot_b_state_publisher,

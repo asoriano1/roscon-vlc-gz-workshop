@@ -124,8 +124,8 @@ Tres secciones con la misma forma:
 | 0:00–0:10 | Presentación y preparación del entorno | |
 | 0:10–0:20 | Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
 | 0:20–0:35 | **1. Spawn.** Preámbulo: un robot en Gazebo | [preámbulo 1](exercises/1_spawn/1_preambulo.md) |
-| 0:35–0:55 | Ejercicio 1: tres robots en el almacén | [ejercicio 1](exercises/1_spawn/2_ejercicio.md) |
-| 0:55–1:10 | Post-ejercicio 1: Model Importer | [post-ejercicio 1](exercises/1_spawn/3_post_ejercicio.md) |
+| 0:35–0:50 | Ejercicio 1: tres robots en el almacén | [ejercicio 1](exercises/1_spawn/2_ejercicio.md) |
+| 0:50–1:10 | Post-ejercicio 1: robots de Robotnik con el Model Importer | [post-ejercicio 1](exercises/1_spawn/3_post_ejercicio.md) |
 | 1:10–1:20 | Descanso | |
 | 1:20–1:32 | **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
 | 1:32–1:52 | Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
