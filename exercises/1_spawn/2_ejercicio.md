@@ -49,7 +49,7 @@ de otro. Cada robot necesita su propia pose.
 
 Pon cada robot en su estación: cambia `-x`, `-y` y `-Y` en su `create`, guarda, Ctrl+C y vuelve a
 lanzar. Repite hasta que los tres queden **sobre su placa y mirando al cargador**. El frontal del
-robot es el lado de la rueda loca.
+robot es el de la franja roja.
 
 | Robot | Estación |
 |---|---|

@@ -48,6 +48,13 @@
       <geometry><box size="${base_x} ${base_y} ${base_z}"/></geometry>
       <material name="body_grey"/>
     </visual>
+    <!-- La franja roja del morro: solo visual (sin collision), para saber hacia dónde mira el
+         robot. Un link puede tener tantos <visual> como haga falta. -->
+    <visual>
+      <origin xyz="${base_x/2 - 0.03} 0 ${base_z/2 + 0.0025}" rpy="0 0 0"/>
+      <geometry><box size="0.06 ${base_y} 0.005"/></geometry>
+      <material name="accent_red"/>
+    </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry><box size="${base_x} ${base_y} ${base_z}"/></geometry>

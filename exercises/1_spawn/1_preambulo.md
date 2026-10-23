@@ -38,7 +38,8 @@ Lanza el robot tal como está:
 ros2 launch mini_bot display.launch.py
 ```
 
-En RViz sale solo la caja, a medias bajo la rejilla. Ahora, un paso cada vez: actívalo, guarda,
+En RViz sale solo la caja, a medias bajo la rejilla. La franja roja de encima marca el frontal: es
+un segundo `<visual>` del mismo link, sin colisión. Ahora, un paso cada vez: actívalo, guarda,
 Ctrl+C en el contenedor, vuelve a lanzar y mira qué cambia.
 
 | Paso | Qué activa | Qué cambia en RViz |
