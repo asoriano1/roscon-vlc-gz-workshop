@@ -33,6 +33,7 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='0.0'),
         DeclareLaunchArgument('z', default_value='0.15'),
         DeclareLaunchArgument('rviz', default_value='true'),
+        DeclareLaunchArgument('rviz_config', default_value='mini_bot.rviz'),
     ]
 
     ns = LaunchConfiguration('namespace')
@@ -117,13 +118,14 @@ def generate_launch_description():
         }],
     )
 
-    # RViz con una configuración guardada: modelo del robot, TF, LaserScan e imagen.
+    # RViz con una configuración guardada de rviz/: modelo del robot, TF, LaserScan e imagen.
+    # En el ejercicio 2, rviz_config:=ejercicio_2.rviz añade la cámara trasera y el ultrasonido.
     rviz = Node(
         package='rviz2',
         executable='rviz2',
         output='screen',
         condition=IfCondition(LaunchConfiguration('rviz')),
-        arguments=['-d', PathJoinSubstitution([pkg, 'rviz', 'mini_bot.rviz'])],
+        arguments=['-d', PathJoinSubstitution([pkg, 'rviz', LaunchConfiguration('rviz_config')])],
         parameters=[{'use_sim_time': True}],
     )
 

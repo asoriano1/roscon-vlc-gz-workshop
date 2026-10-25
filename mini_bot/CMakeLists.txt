@@ -14,4 +14,10 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+# El slider del mástil del ejercicio 3: ros2 run mini_bot mast_slider.py
+install(PROGRAMS
+  scripts/mast_slider.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

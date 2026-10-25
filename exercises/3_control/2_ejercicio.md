@@ -101,28 +101,35 @@ ros2 control list_hardware_interfaces | grep mast   # mast_joint/position [claim
 ros2 topic echo /joint_states --once | grep -A3 name   # ahora sale mast_joint
 ```
 
-Gira el mástil:
+Gira el mástil con el slider, como los de las ruedas en el preámbulo 1:
+
+```bash
+ros2 run mini_bot mast_slider.py
+```
+
+Cada vez que mueves el slider, publica el ángulo en `/mast_controller/commands`. Es lo mismo que
+esta orden desde la consola:
 
 ```bash
 ros2 topic pub --once /mast_controller/commands std_msgs/msg/Float64MultiArray "{data: [1.0]}"
 ```
 
-Comprueba que ha llegado:
+Lleva el slider a 1.0 y comprueba que ha llegado:
 
 ```bash
 ros2 topic echo /joint_states --once           # mast_joint: 1.0
 ros2 run tf2_ros tf2_echo base_link mast_camera_link   # yaw de 57° (Ctrl+C)
 ```
 
-En RViz, la cabeza del mástil gira y la imagen de la cámara cambia. Prueba con `-1.0` y con
-`0.0`. Las ruedas siguen funcionando con el teleop.
+En RViz, la cabeza del mástil gira y la imagen de la cámara cambia. Las ruedas siguen funcionando
+con el teleop.
 
 Cuando el mástil obedezca, **pon el post-it verde**.
 
 ## Preguntas
 
 1. ¿Qué tres ficheros has tocado y qué pieza va en cada uno?
-2. Manda `{data: [3.0]}`. ¿Qué pasa, y por qué?
+2. El slider llega a ±1.57. Manda `{data: [3.0]}` con el `ros2 topic pub`. ¿Qué pasa, y por qué?
 3. ¿Por qué el controlador del mástil no necesita `stamped:=true` y el teleop sí?
 
 ## Errores típicos
@@ -133,4 +140,5 @@ Cuando el mástil obedezca, **pon el post-it verde**.
 | `mast_controller` no aparece en `list_controllers` | Falta el spawner en la lista del launch |
 | Gazebo se cierra al aparecer el robot, y el log dice `Couldn't parse params file` … `Cannot have a value before ros__parameters` | El YAML está mal sangrado: la declaración tiene que ir al nivel de `diff_drive_controller:` dentro de `controller_manager` |
 | El controlador no se activa y el log habla de `mast_joint` | El joint no está en `<ros2_control>`, o tiene otro nombre |
-| El mástil no se mueve con el `pub` | El controlador no está `active`, o el topic no es `/mast_controller/commands` |
+| El mástil no se mueve con el slider ni con el `pub` | El controlador no está `active`, o el topic no es `/mast_controller/commands` |
+| `No executable found` con `mast_slider.py` | Falta el `colcon build` de "Antes de empezar" |

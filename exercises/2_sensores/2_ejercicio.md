@@ -101,10 +101,11 @@ lidar de cinco rayos.
 
 ## 2. Llévalos a ROS 2
 
-Lanza el robot y averigua qué publican los sensores nuevos en Gazebo:
+Lanza el robot con la configuración de RViz del ejercicio y averigua qué publican los sensores
+nuevos en Gazebo:
 
 ```bash
-ros2 launch mini_bot sim.launch.py
+ros2 launch mini_bot sim.launch.py rviz_config:=ejercicio_2.rviz
 ```
 
 En otra terminal:
@@ -127,14 +128,14 @@ el formato de las que ya hay. Para el tipo de ROS 2, esta tabla:
 | `gz.msgs.LaserScan` | `sensor_msgs/msg/LaserScan` |
 | `gz.msgs.CameraInfo` | `sensor_msgs/msg/CameraInfo` |
 
-Guarda, Ctrl+C y vuelve a lanzar.
+Guarda, Ctrl+C y vuelve a lanzar, con el mismo `rviz_config:=ejercicio_2.rviz`.
 
 ## 3. Míralos en RViz
 
-En RViz, pulsa **Add** (abajo a la izquierda) → pestaña **By topic**, y añade:
-
-- la imagen de la cámara trasera, como **Image**;
-- el ultrasonido, como **LaserScan**. Ponle un **Size** de 0.05 para que se vean los puntos.
+`ejercicio_2.rviz` es la configuración de siempre con dos displays más: **RearCamera**, la imagen
+de `/rear_camera/image`, y **Ultrasound**, el scan de `/ultrasound` en puntos amarillos. Mientras
+no llegue nada por su topic, se quedan vacíos o con un aviso en el panel *Displays*. Cuando tu
+puente funcione, se llenan solos.
 
 ## Comprueba
 
@@ -148,7 +149,7 @@ Sin nada delante, el ultrasonido da `.inf` en los cinco rayos: no hay eco. Para 
 lanza el robot frente a una caja y vuelve a mirar:
 
 ```bash
-ros2 launch mini_bot sim.launch.py x:=1.0 y:=1.0     # los cinco rayos, ~0.54 m
+ros2 launch mini_bot sim.launch.py rviz_config:=ejercicio_2.rviz x:=1.0 y:=1.0   # ~0.54 m
 ```
 
 Cuando veas en RViz la imagen trasera y los puntos del ultrasonido sobre la caja, **pon el
@@ -169,4 +170,7 @@ post-it verde**.
 | `xacro` da un error al lanzar | El bloque se ha pegado fuera de `<robot>`, o a medias |
 | El topic sale en `ros2 topic list` pero no llega nada | El `gz_topic_name` no coincide exactamente con `gz topic -l` |
 | El topic nuevo no sale en ROS 2 | Falta relanzar, o la entrada del YAML está mal sangrada |
-| RViz no pinta el ultrasonido | En el display, el *Topic* no es el bueno; o los rayos dan `.inf` porque no hay nada delante |
+| RViz no tiene los displays RearCamera y Ultrasound | Falta `rviz_config:=ejercicio_2.rviz` al lanzar |
+| RViz se abre vacío, sin el robot ni los displays | La imagen es anterior a `ejercicio_2.rviz`: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
+| RViz no pinta el ultrasonido | El topic del puente no es `/ultrasound`; o los rayos dan `.inf` porque no hay nada delante |
+| RearCamera sale vacío | El topic del puente no es `/rear_camera/image` |

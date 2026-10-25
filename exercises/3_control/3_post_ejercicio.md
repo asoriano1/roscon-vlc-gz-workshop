@@ -49,13 +49,13 @@ Lo mismo que en el ejercicio 3:
 
 ```bash
 ros2 control list_controllers
-ros2 topic pub --once /mast_controller/commands std_msgs/msg/Float64MultiArray "{data: [1.0]}"
+ros2 run mini_bot mast_slider.py
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
   --ros-args -p stamped:=true -r cmd_vel:=/diff_drive_controller/cmd_vel
 ```
 
-El mástil gira, la imagen cambia en RViz y el robot conduce. Desactiva `mast_controller` desde
-el panel y vuelve a mandar el `pub`: no se mueve.
+El mástil gira con el slider, la imagen cambia en RViz y el robot conduce. Desactiva
+`mast_controller` desde el panel y vuelve a mover el slider: el mástil no se mueve.
 
 ⏱️ Apunta el tiempo y compáralo con el del ejercicio 3.
 
