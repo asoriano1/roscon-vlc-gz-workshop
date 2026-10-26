@@ -129,14 +129,14 @@ Tres secciones con la misma forma:
 | Descanso | |
 | **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
 | Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
-| Post-ejercicio 2: Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
+| Post-ejercicio 2: los sensores de un RB-Summit, con el Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
 | **3. Control.** Preámbulo: ros2_control | [preámbulo 3](exercises/3_control/1_preambulo.md) |
 | Ejercicio 3: el control del mástil | [ejercicio 3](exercises/3_control/2_ejercicio.md) |
-| Post-ejercicio 3: todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
+| Post-ejercicio 3: un RB-Summit conduciendo, todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
 | Cierre | |
 
-**Extra opcional**, fuera del horario: [robots de Robotnik](exercises/extra_robotnik/), robots
-reales con mallas y sensores completos, con el mismo flujo de la suite.
+**Extra opcional**, fuera del horario: [más robots de Robotnik](exercises/extra_robotnik/), con el
+mismo flujo de la suite.
 
 Qué hace cada pieza (xacro, `robot_state_publisher`, `create`, bridge, ros2_control, controladores):
 [docs/anatomia.md](docs/anatomia.md).

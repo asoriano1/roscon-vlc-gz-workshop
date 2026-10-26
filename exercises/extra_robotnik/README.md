@@ -1,11 +1,12 @@
-# Extra — Robots reales de Robotnik (opcional)
+# Extra — Más robots de Robotnik (opcional)
 
-Hasta ahora todo ha sido un robot de cajas. Ahora entran robots de verdad, con mallas, sensores
-reales y `ros2_control` ya montado: los de
-[`robotnik_description`](https://github.com/RobotnikAutomation/robotnik_description).
+En los post-ejercicios has importado un RB-Summit, has puenteado sus sensores y lo has conducido.
+En la carpeta `$WS/robots` hay más robots de
+[`robotnik_description`](https://github.com/RobotnikAutomation/robotnik_description), con sus
+mallas y sus sensores. El flujo es el mismo con todos.
 
-> Aviso: aquí la simulación va a ir más lenta, sobre todo sin GPU. No importa.
-> Lo que se demuestra es que el flujo es el mismo con un robot de 50 kB y con uno de 50 MB.
+> Aviso: sin GPU, la simulación va más lenta con cada robot. No importa: lo que se demuestra es que
+> el flujo es el mismo con un robot de 50 kB y con uno de 50 MB.
 
 ## Pasos
 
@@ -17,41 +18,34 @@ cd $WS/robots && ros2 launch gz_model_importer gazebo_importer.launch.py \
   world:=$(ros2 pkg prefix mini_bot)/share/mini_bot/worlds/workshop.sdf
 ```
 
-1. Con el importer (*Browse* → `rbsummit.urdf.xacro`), importa un **RB-Summit** con namespace
-   `summit_a` y el campo *prefix* **vacío**. Aquí no vale `summit_a/`: los xacros de Robotnik
-   ponen el prefijo también en los joints, y el YAML de controladores nombra las ruedas sin él.
-2. Importa un segundo robot distinto: RB-Vogui, RB-Theron o, para tener brazo, un RB-Kairos+
-   (los tres están en la misma carpeta).
-3. Puentea sus sensores con el Bridge Manager.
-4. Activa los controladores del RB-Summit con el Control Manager (*Load inactive* y *Activate*
-   en `joint_state_broadcaster` y `diff_drive_controller`) y condúcelo desde otra terminal
-   (lanza `./setup/shell.sh` en tu máquina, desde la raíz del repo):
+1. Importa un **RB-Vogui** (`rbvogui.urdf.xacro`) con *Namespace* `vogui_a` y *Frame prefix*
+   `vogui_a/`.
+2. Importa otro distinto al lado: un RB-Theron o, para tener brazo, un RB-Kairos+
+   (`rbkairos_plus.urdf.xacro`), con su propio namespace y prefijo.
+3. Con el Bridge Manager, mira qué sensores trae cada uno y puentea los que quieras ver.
+4. Míralos en RViz: abre `rviz2`, pon como *Fixed Frame* el `base_footprint` de uno de ellos
+   (`vogui_a/base_footprint`) y añade sus displays con **Add** → **By topic**.
 
-   ```bash
-   ros2 topic pub -r 10 /summit_a/diff_drive_controller/cmd_vel geometry_msgs/msg/TwistStamped \
-     "{twist: {linear: {x: 0.5}, angular: {z: 0.4}}}"
-   ```
-
-> Mismo robot y mismo hardware interface (cuatro ruedas por velocidad) que en Robotnik, otro
-> controlador: aquí lo mueve el `diff_drive_controller` de `mini_bot` en modo skid-steer.
+Solo el RB-Summit tiene controladores preparados en la imagen. Los demás declaran controladores de
+Robotnik que no son públicos: aquí se quedan quietos.
 
 ## Comparación final
 
-| | mini_bot | RB-Summit |
+| | mini_bot | Un robot de Robotnik |
 |---|---|---|
 | Lo que escribiste | todo | nada |
 | Geometría | primitivas | mallas |
-| Tiempo hasta verlo rodar | tu marca de los ej. 1–5 | tu marca de ahora |
+| Tiempo hasta ver sus sensores en RViz | tu marca del ejercicio 2 | tu marca de ahora |
 
 ## Preguntas para el cierre
 
 1. ¿Qué partes de lo que escribiste a mano siguen siendo necesarias en producción?
-2. ¿Dónde te ha ahorrado tiempo de verdad la suite y dónde no?
+2. ¿Dónde te ha ahorrado tiempo de verdad la suite, y dónde no?
 3. ¿Qué robot de tu trabajo importarías así?
 
 ## Si la simulación se arrastra
 
 - Usa `worlds/workshop_lite.sdf`.
 - Quédate con dos robots.
-- Puentea solo los sensores que vayas a mirar: un sensor con suscriptores en ROS 2 se
-  renderiza, y los del RB-Summit son caros.
+- Puentea solo los sensores que vayas a mirar: un sensor con suscriptores en ROS 2 se renderiza, y
+  los de estos robots son caros.
