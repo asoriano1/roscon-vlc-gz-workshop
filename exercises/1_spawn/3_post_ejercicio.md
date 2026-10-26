@@ -1,9 +1,10 @@
 # Post-ejercicio 1 — Robots de Robotnik en el almacén, con el Model Importer (20 min)
 
-Primero, la demo del ponente. Después, llegan dos robots nuevos al almacén: un **RB-Summit** y un
-**RB-Theron** de Robotnik, robots reales con mallas y sensores. Los tres `mini_bot` siguen en sus
-estaciones, lanzados con tu `almacen.launch.py`. Los nuevos entran con el **Model Importer**, con
-la simulación en marcha, y se quedan en la **zona de recepción**: el rectángulo blanco del suelo.
+Primero te lo enseño en directo, en el proyector. Después, llegan dos robots nuevos al almacén:
+un **RB-Summit** y un **RB-Theron** de Robotnik, robots reales con mallas y sensores. Los tres
+`mini_bot` siguen en sus estaciones, lanzados con tu `almacen.launch.py`. Los nuevos entran con el
+**Model Importer**, con la simulación en marcha, y se quedan en la **zona de recepción**: el
+rectángulo blanco del suelo.
 
 El importer es un plugin de la GUI de Gazebo. Hace, para cada robot, lo que hace tu launch:
 expande el xacro, lanza `robot_state_publisher` y crea el robot en el mundo. Antes enseña un

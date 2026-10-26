@@ -1,7 +1,7 @@
 # Ejercicio 2 — Dos sensores más (20 min)
 
-**El problema:** el `mini_bot` necesita ver hacia atrás y medir distancias cortas delante. Añádele
-una **cámara trasera** y un **ultrasonido** frontal, llévalos a ROS 2 y míralos en RViz.
+**El problema:** el `mini_bot` necesita ver hacia atrás y medir distancias cortas detrás. Añádele
+una **cámara trasera** y un **ultrasonido** trasero, llévalos a ROS 2 y míralos en RViz.
 
 El código de los sensores te lo damos: cópialo y pégalo. **El trabajo está en el puente**:
 averigua qué publica Gazebo y escribe tú las entradas del `bridge.yaml`.
@@ -54,8 +54,8 @@ comentario `Pega aquí los sensores del ejercicio 2`:
   </gazebo>
 
   <!-- "Ultrasonido": Gazebo no tiene sensor de ultrasonidos, así que se imita con un lidar de
-       5 rayos en un cono de 15° y 3 m de alcance, a 10 Hz. Va inclinado 0,1 rad hacia arriba:
-       el robot cabecea 0,067 rad hacia delante en reposo y, recto, el sensor vería el suelo a 1 m. -->
+       5 rayos en un cono de 15° y 3 m de alcance, a 10 Hz. Va detrás, mirando hacia atrás (giro
+       de 180° en el joint): delante ya mira el LiDAR, y así sus medidas no se mezclan. -->
   <link name="${prefix}ultrasound_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
@@ -68,7 +68,7 @@ comentario `Pega aquí los sensores del ejercicio 2`:
   <joint name="ultrasound_joint" type="fixed">
     <parent link="${prefix}base_link"/>
     <child  link="${prefix}ultrasound_link"/>
-    <origin xyz="${base_x/2 + 0.005} 0 0" rpy="0 -0.1 0"/>
+    <origin xyz="${-base_x/2 - 0.005} 0 0" rpy="0 0 ${pi}"/>
   </joint>
 
   <gazebo reference="${prefix}ultrasound_link">
@@ -145,11 +145,11 @@ ros2 topic hz <topic de la cámara trasera>   # ~5 Hz × RTF
 ros2 topic echo <topic del ultrasonido> --once | grep -A5 ranges
 ```
 
-Sin nada delante, el ultrasonido da `.inf` en los cinco rayos: no hay eco. Para verlo medir,
-lanza el robot frente a una caja y vuelve a mirar:
+Sin nada detrás, el ultrasonido da `.inf` en los cinco rayos: no hay eco. Para verlo medir,
+lanza el robot de espaldas a una caja y vuelve a mirar:
 
 ```bash
-ros2 launch mini_bot sim.launch.py rviz_config:=ejercicio_2.rviz x:=1.0 y:=1.0   # ~0.54 m
+ros2 launch mini_bot sim.launch.py rviz_config:=ejercicio_2.rviz x:=3.0 y:=1.0   # ~0.55 m
 ```
 
 Cuando veas en RViz la imagen trasera y los puntos del ultrasonido sobre la caja, **pon el
@@ -159,8 +159,8 @@ post-it verde**.
 
 1. ¿Cuántos ficheros has tocado para añadir dos sensores? ¿Y si fueran tres robots, cada uno con
    su namespace?
-2. ¿Por qué el ultrasonido va inclinado hacia arriba? Pista: el comentario del bloque, y
-   `gz model -m mini_bot -p` con el robot parado.
+2. ¿Por qué el ultrasonido va detrás y no delante? Pista: el comentario del bloque, y en RViz
+   dónde caerían sus puntos.
 3. ¿Qué pasa si te equivocas de dirección (`ROS_TO_GZ`) en una entrada?
 
 ## Errores típicos
@@ -171,6 +171,6 @@ post-it verde**.
 | El topic sale en `ros2 topic list` pero no llega nada | El `gz_topic_name` no coincide exactamente con `gz topic -l` |
 | El topic nuevo no sale en ROS 2 | Falta relanzar, o la entrada del YAML está mal sangrada |
 | RViz no tiene los displays RearCamera y Ultrasound | Falta `rviz_config:=ejercicio_2.rviz` al lanzar |
-| RViz se abre vacío, sin el robot ni los displays | La imagen es anterior a `ejercicio_2.rviz`: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
-| RViz no pinta el ultrasonido | El topic del puente no es `/ultrasound`; o los rayos dan `.inf` porque no hay nada delante |
+| RViz se abre vacío, sin el robot ni los displays | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
+| RViz no pinta el ultrasonido | El topic del puente no es `/ultrasound`; o los rayos dan `.inf` porque no hay nada detrás |
 | RearCamera sale vacío | El topic del puente no es `/rear_camera/image` |

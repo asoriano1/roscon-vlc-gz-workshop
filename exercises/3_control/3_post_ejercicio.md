@@ -1,8 +1,8 @@
 # Post-ejercicio 3 — Un RB-Summit conduciendo, todo con la suite (15 min)
 
-Primero, la demo del ponente. Después, haz con los tres plugins de la suite lo que hace un launch
-completo, con un robot que no has escrito tú: meter un **RB-Summit** en el mundo, llevar sus
-sensores a ROS 2, activar sus controladores y conducirlo. Sin escribir una línea.
+Primero te lo enseño en directo, en el proyector. Después, haz con los tres plugins de la suite lo
+que hace un launch completo, con un robot que no has escrito tú: meter un **RB-Summit** en el
+mundo, llevar sus sensores a ROS 2, activar sus controladores y conducirlo. Sin escribir una línea.
 
 El **ROS 2 Control Manager** es el tercer plugin. Encuentra los `controller_manager` que hay en el
 mundo y enseña sus controladores: los carga, los configura y los activa con botones, el mismo
@@ -103,6 +103,6 @@ está decidido: es reproducible, va en el repositorio, corre sin GUI.
 | `diff_drive_controller` no pasa a `active` | El *Frame prefix* no está vacío: los joints de las ruedas llevan el prefijo y el YAML no. Cierra Gazebo y vuelve a importar |
 | El robot no se mueve con el teleop | `diff_drive_controller` no está `active`; con el teclado, falta `-p stamped:=true` o el remap con `/summit_a` |
 | En RViz no salen las flechas | Falta el `teleop_raton.launch.py`, o se lanzó sin `namespace:=summit_a` |
-| `teleop_raton.launch.py` no se encuentra | La imagen es anterior a él: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
+| `teleop_raton.launch.py` no se encuentra | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
 | RViz no pinta la nube ni la imagen | Falta pulsar **Run** en el Bridge Manager, o no están marcados esos dos topics |
 | La simulación va lenta | Los sensores del Summit se renderizan cuando alguien se suscribe: puentea solo los dos de la lista |

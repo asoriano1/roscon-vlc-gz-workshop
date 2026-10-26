@@ -11,13 +11,6 @@ estación: entero sobre la placa y mirando a su cargador.
 
 ## Antes de empezar
 
-`almacen.launch.py` y el mundo del almacén son ficheros nuevos para ROS 2: compila una vez para
-que se instalen. En el contenedor:
-
-```bash
-colcon build --packages-select mini_bot --symlink-install && source install/setup.bash
-```
-
 Abre `mini_bot/launch/almacen.launch.py` en tu editor. Trae el almacén y un robot completo,
 `robot_a`, en la pose `(0, 0, 0)`. Lee el comentario del bloque de `robot_a`: explica las tres
 cosas que tienen que cambiar de un robot a otro.
@@ -88,7 +81,7 @@ los links tienen que llamarse igual: `robot_a/base_footprint`, `robot_a/base_lin
 
 | Síntoma | Causa |
 |---|---|
-| `file 'almacen.launch.py' was not found` | Falta el `colcon build` de "Antes de empezar" |
+| `file 'almacen.launch.py' was not found` | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
 | Sale solo `robot_a` | Los nodos nuevos no están en las listas del final del launch |
 | Falta un robot, y `create` dice `Entity creation successful` | Dos `-name` iguales: Gazebo descarta el segundo sin avisar. Revisa el `-name` de cada bloque copiado |
 | El robot cae girado, pero no como se esperaba | `-Y` va en radianes, no en grados |

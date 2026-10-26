@@ -1,6 +1,6 @@
 # Post-ejercicio 2 — Los sensores de un RB-Summit, con el Bridge Manager (13 min)
 
-Primero, la demo del ponente. Después, dos robots:
+Primero te lo enseño en directo, en el proyector. Después, dos robots:
 
 1. Tu `mini_bot`: el ejercicio 2 otra vez, sin tocar el `bridge.yaml`, para comparar.
 2. Un **RB-Summit** de Robotnik: un LiDAR 3D, una cámara RGB-D, una IMU y un GPS. Su puente no lo

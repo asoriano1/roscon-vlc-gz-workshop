@@ -13,10 +13,9 @@ y `mini_bot/launch/mast.launch.py`
 
 ## Antes de empezar
 
-`mast_bot` y su launch son ficheros nuevos para ROS 2: compila una vez. En el contenedor:
+Lanza el `mast_bot`, que ya trae el control de las ruedas:
 
 ```bash
-colcon build --packages-select mini_bot --symlink-install && source install/setup.bash
 ros2 launch mini_bot mast.launch.py
 ```
 
@@ -140,10 +139,10 @@ Cuando el mástil obedezca, **pon el post-it verde**.
 
 | Síntoma | Causa |
 |---|---|
-| `file 'mast.launch.py' was not found` | Falta el `colcon build` de "Antes de empezar" |
+| `file 'mast.launch.py' was not found` | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
 | `mast_controller` no aparece en `list_controllers` | Falta el spawner en la lista del launch |
 | Gazebo se cierra al aparecer el robot, y el log dice `Couldn't parse params file` … `Cannot have a value before ros__parameters` | El YAML está mal sangrado: la declaración tiene que ir al nivel de `diff_drive_controller:` dentro de `controller_manager` |
 | El controlador no se activa y el log habla de `mast_joint` | El joint no está en `<ros2_control>`, o tiene otro nombre |
 | El mástil no se mueve con el slider ni con el `pub` | El controlador no está `active`, o el topic no es `/mast_controller/commands` |
 | En RViz no salen las flechas alrededor del robot | El display *Teleop* está desactivado, o el launch es de antes del taller: relanza `mast.launch.py` |
-| `No executable found` con `mast_slider.py` | Falta el `colcon build` de "Antes de empezar" |
+| `No executable found` con `mast_slider.py` | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |

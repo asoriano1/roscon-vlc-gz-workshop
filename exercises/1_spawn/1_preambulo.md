@@ -15,12 +15,8 @@ cambio se ve sin recompilar) y qué sabe ROS 2 de un robot que ya está en Gazeb
 
 ## Antes de empezar
 
-Con el contenedor arrancado (`./setup/run.sh`) y `check_setup.sh` en OK, compila una vez. En la
-terminal del contenedor (prompt `root@…:/workshop_ws#`):
-
-```bash
-colcon build --packages-select mini_bot --symlink-install && source install/setup.bash
-```
+Arranca el contenedor (`./setup/run.sh`) y comprueba que `check_setup.sh` termina en OK. No hace
+falta compilar: la imagen ya trae instalado el paquete `mini_bot`, con todos sus ficheros.
 
 Abre `mini_bot/urdf/mini_bot.urdf.xacro` del repo en tu editor, **en tu máquina**.
 
