@@ -129,10 +129,10 @@ Tres secciones con la misma forma:
 | Descanso | |
 | **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
 | Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
-| Post-ejercicio 2: los sensores de un RB-Summit, con el Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
+| Post-ejercicio 2: los sensores de dos `mini_bot`, con el Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
 | **3. Control.** Preámbulo: ros2_control | [preámbulo 3](exercises/3_control/1_preambulo.md) |
 | Ejercicio 3: el control del mástil | [ejercicio 3](exercises/3_control/2_ejercicio.md) |
-| Post-ejercicio 3: un RB-Summit conduciendo, todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
+| Post-ejercicio 3: el `mast_bot`, todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
 | Cierre | |
 
 **Extra opcional**, fuera del horario: [más robots de Robotnik](exercises/extra_robotnik/), con el

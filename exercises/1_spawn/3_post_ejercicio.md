@@ -12,12 +12,16 @@ preview: una copia estática, sin física, que se coloca con el ratón.
 
 ## 1. El almacén, con el importer y con tu launch
 
-Cierra el launch del ejercicio 1 (Ctrl+C) y lanza el almacén con el importer:
+Cierra el launch del ejercicio 1 (Ctrl+C) y lanza el almacén con la suite:
 
 ```bash
-cd $WS/robots && ros2 launch gz_model_importer gazebo_importer.launch.py \
+cd $WS/robots && ros2 launch mini_bot suite.launch.py \
   world:=$(ros2 pkg prefix mini_bot)/share/mini_bot/worlds/workshop_almacen.sdf
 ```
+
+Es el Gazebo de siempre con los tres paneles de la suite acoplados a la derecha: el **Model
+Importer**, abierto, y el **Bridge Manager** y el **Control Manager**, plegados (se abren con un
+clic en su título; aquí no hacen falta).
 
 El `cd $WS/robots` importa: el *Browse* se abre en la carpeta desde la que lanzas, y ahí están
 los xacros del taller y los de Robotnik.
@@ -84,6 +88,7 @@ escenas; cuando una escena funciona, sus números pasan al launch.
 | Síntoma | Causa |
 |---|---|
 | Un robot importado no hace nada, y los `mini_bot` tampoco | La simulación se queda en pausa después de importar: pulsa ▶ |
+| `file 'suite.launch.py' was not found` | La imagen es anterior a ese fichero: `colcon build --packages-select mini_bot --symlink-install && source install/setup.bash` |
 | Se abre un segundo Gazebo | Falta `gazebo:=false` en `almacen.launch.py`: ciérralo y relánzalo con él |
 | Solo aparece `robot_a`, en el centro | El ejercicio 1 está sin terminar: copia su solución, `cp mini_bot/solutions/ejercicio_1/almacen.launch.py mini_bot/launch/` |
 | El robot del preview no se mueve al arrastrarlo | Haz clic primero en el robot para seleccionarlo, y después elige **Translate** en la barra de herramientas |

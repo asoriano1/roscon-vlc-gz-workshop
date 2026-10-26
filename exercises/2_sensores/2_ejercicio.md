@@ -55,7 +55,9 @@ comentario `Pega aquí los sensores del ejercicio 2`:
 
   <!-- "Ultrasonido": Gazebo no tiene sensor de ultrasonidos, así que se imita con un lidar de
        5 rayos en un cono de 15° y 3 m de alcance, a 10 Hz. Va detrás, mirando hacia atrás (giro
-       de 180° en el joint): delante ya mira el LiDAR, y así sus medidas no se mezclan. -->
+       de 180° en el joint): delante ya mira el LiDAR, y así sus medidas no se mezclan. Y va
+       inclinado 0,067 rad hacia abajo: el robot cabecea hacia delante en reposo, así que la parte
+       de atrás queda levantada; con la inclinación, el rayo sale horizontal. -->
   <link name="${prefix}ultrasound_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
@@ -68,7 +70,7 @@ comentario `Pega aquí los sensores del ejercicio 2`:
   <joint name="ultrasound_joint" type="fixed">
     <parent link="${prefix}base_link"/>
     <child  link="${prefix}ultrasound_link"/>
-    <origin xyz="${-base_x/2 - 0.005} 0 0" rpy="0 0 ${pi}"/>
+    <origin xyz="${-base_x/2 - 0.005} 0 0" rpy="0 0.067 ${pi}"/>
   </joint>
 
   <gazebo reference="${prefix}ultrasound_link">

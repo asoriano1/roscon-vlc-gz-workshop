@@ -15,8 +15,8 @@ de resolver a mano. Tres secciones, cada una con tres partes:
 | Sección | Preámbulo | Ejercicio | Post-ejercicio |
 |---|---|---|---|
 | 1. Spawn | Un robot en Gazebo | Tres robots en el almacén | Robotnik en el almacén, con el Model Importer |
-| 2. Sensores | Sensores y puente | Dos sensores más | Los sensores de un RB-Summit, con el Bridge Manager |
-| 3. Control | ros2_control | El control del mástil | Un RB-Summit conduciendo, todo con la suite |
+| 2. Sensores | Sensores y puente | Dos sensores más | Los sensores de dos `mini_bot`, con el Bridge Manager |
+| 3. Control | ros2_control | El control del mástil | El `mast_bot`, todo con la suite |
 
 Al terminar antes de tiempo, prueba el extra opcional: más robots de Robotnik
 (`exercises/extra_robotnik/`).

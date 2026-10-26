@@ -1,7 +1,7 @@
 # Extra — Más robots de Robotnik (opcional)
 
-En los post-ejercicios has importado un RB-Summit, has puenteado sus sensores y lo has conducido.
-En la carpeta `$WS/robots` hay más robots de
+En los post-ejercicios has importado un RB-Summit y, en sus extras, has puenteado sus sensores y lo
+has conducido. En la carpeta `$WS/robots` hay más robots de
 [`robotnik_description`](https://github.com/RobotnikAutomation/robotnik_description), con sus
 mallas y sus sensores. El flujo es el mismo con todos.
 
@@ -14,8 +14,7 @@ mallas y sus sensores. El flujo es el mismo con todos.
 post-ejercicios:
 
 ```bash
-cd $WS/robots && ros2 launch gz_model_importer gazebo_importer.launch.py \
-  world:=$(ros2 pkg prefix mini_bot)/share/mini_bot/worlds/workshop.sdf
+cd $WS/robots && ros2 launch mini_bot suite.launch.py
 ```
 
 1. Importa un **RB-Vogui** (`rbvogui.urdf.xacro`) con *Namespace* `vogui_a` y *Frame prefix*
