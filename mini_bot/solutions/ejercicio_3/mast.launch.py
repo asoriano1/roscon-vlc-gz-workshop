@@ -126,6 +126,38 @@ def generate_launch_description():
         parameters=[{'use_sim_time': True}],
     )
 
+    # ── Teleop con el ratón, en RViz ──────────────────────────────────────────────────────────────
+    # marker_server pone unas flechas alrededor del robot (display Teleop de mast_bot.rviz). Al
+    # arrastrarlas, publica la velocidad: lo mismo que teleop_twist_keyboard, con el ratón.
+    # Arrastrar la flecha roja avanza o retrocede, y girar el anillo azul gira el robot. Al soltar,
+    # el robot se para.
+    # marker_server publica Twist, sin cabecera, y diff_drive_controller solo acepta TwistStamped:
+    # twist_stamper le pone la cabecera por el camino (mouse_vel → diff_drive_controller/cmd_vel).
+    twist_marker = Node(
+        package='interactive_marker_twist_server',
+        executable='marker_server',
+        name='twist_server_node',
+        namespace=ns,
+        output='screen',
+        parameters=[{
+            'link_name': [LaunchConfiguration('prefix'), 'base_footprint'],
+            'linear_scale': {'x': 0.5},
+            'max_positive_linear_velocity': {'x': 0.5},
+            'max_negative_linear_velocity': {'x': -0.5},
+            'use_sim_time': True,
+        }],
+        remappings=[('cmd_vel', 'mouse_vel')],
+    )
+
+    twist_stamper = Node(
+        package='twist_stamper',
+        executable='twist_stamper',
+        namespace=ns,
+        output='screen',
+        parameters=[{'frame_id': [LaunchConfiguration('prefix'), 'base_footprint'], 'use_sim_time': True}],
+        remappings=[('cmd_vel_in', 'mouse_vel'), ('cmd_vel_out', 'diff_drive_controller/cmd_vel')],
+    )
+
     # ── Los spawners de los controladores ─────────────────────────────────────────────────────────
     # El controller_manager lo arranca el plugin gz_ros2_control dentro de Gazebo, con los
     # controladores declarados en config/mast_controllers.yaml, pero sin cargar.
@@ -167,6 +199,8 @@ def generate_launch_description():
         spawn_delayed,
         bridge,
         rviz,
+        twist_marker,
+        twist_stamper,
         jsb_spawner,
         diff_spawner,
         mast_spawner,

@@ -20,7 +20,11 @@ colcon build --packages-select mini_bot --symlink-install && source install/setu
 ros2 launch mini_bot mast.launch.py
 ```
 
-Conduce con el teleop como en el preámbulo 3: las ruedas funcionan. Ahora mira el mástil:
+Conduce como en el preámbulo 3: las ruedas funcionan. Además del teleop de teclado, aquí puedes
+conducir con el ratón en RViz: alrededor del robot salen unas flechas. Arrastra la flecha roja
+para avanzar o retroceder y gira el anillo azul para girar. Al soltar, el robot se para.
+
+Ahora mira el mástil:
 
 ```bash
 ros2 control list_hardware_interfaces    # no hay nada de mast_joint
@@ -121,8 +125,8 @@ ros2 topic echo /joint_states --once           # mast_joint: 1.0
 ros2 run tf2_ros tf2_echo base_link mast_camera_link   # yaw de 57° (Ctrl+C)
 ```
 
-En RViz, la cabeza del mástil gira y la imagen de la cámara cambia. Las ruedas siguen funcionando
-con el teleop.
+En RViz, la cabeza del mástil gira y la imagen de la cámara cambia. Las ruedas siguen funcionando,
+con el teleop o con las flechas de RViz.
 
 Cuando el mástil obedezca, **pon el post-it verde**.
 
@@ -141,4 +145,5 @@ Cuando el mástil obedezca, **pon el post-it verde**.
 | Gazebo se cierra al aparecer el robot, y el log dice `Couldn't parse params file` … `Cannot have a value before ros__parameters` | El YAML está mal sangrado: la declaración tiene que ir al nivel de `diff_drive_controller:` dentro de `controller_manager` |
 | El controlador no se activa y el log habla de `mast_joint` | El joint no está en `<ros2_control>`, o tiene otro nombre |
 | El mástil no se mueve con el slider ni con el `pub` | El controlador no está `active`, o el topic no es `/mast_controller/commands` |
+| En RViz no salen las flechas alrededor del robot | El display *Teleop* está desactivado, o el launch es de antes del taller: relanza `mast.launch.py` |
 | `No executable found` con `mast_slider.py` | Falta el `colcon build` de "Antes de empezar" |

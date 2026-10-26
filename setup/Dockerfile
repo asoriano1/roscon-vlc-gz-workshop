@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       ros-jazzy-rviz2 \
       ros-jazzy-xacro \
       ros-jazzy-teleop-twist-keyboard \
+      ros-jazzy-interactive-marker-twist-server \
+      ros-jazzy-twist-stamper \
       ros-jazzy-rqt-graph \
       ros-jazzy-rqt-tf-tree \
       python3-colcon-common-extensions \

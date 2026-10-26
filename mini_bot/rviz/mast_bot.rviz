@@ -50,6 +50,13 @@ Visualization Manager:
         Depth: 5
         Durability Policy: Volatile
         Reliability Policy: Best Effort
+    - Class: rviz_default_plugins/InteractiveMarkers
+      Name: Teleop
+      Enabled: true
+      Interactive Markers Namespace: /twist_server
+      Show Axes: false
+      Show Descriptions: false
+      Show Visual Aids: false
   Global Status:
     Value: true
   Tools:
