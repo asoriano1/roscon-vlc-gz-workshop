@@ -20,7 +20,7 @@ git clone https://github.com/asoriano1/gz_ros2_control_manager.git
 git clone -b jazzy-devel https://github.com/RobotnikAutomation/robotnik_description.git
 git clone -b jazzy-devel https://github.com/RobotnikAutomation/robotnik_sensors.git
 # las mismas versiones que la imagen de Docker
-git -C gz_model_importer_plugin checkout -q d472d95aa2e19e87cd7eb12386191da8f8bf9b74
+git -C gz_model_importer_plugin checkout -q 7ddd09c36057e4edbafedb7cc6953c0301329e91
 git -C gz_ros2_bridge_manager   checkout -q 72773a816d2211a454c2f57eab3d0fd080dfe842
 git -C gz_ros2_control_manager  checkout -q e86beb511e4fc7dc989d071460a2d126f53d252b
 git -C robotnik_description     checkout -q 4bc73425d090ead4591a7091e7ef7e7dc4fe862a
@@ -30,7 +30,7 @@ cp $REPO/setup/rbsummit/rbsummit_control.urdf.xacro \
    robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del extra de Robotnik
 # sensores y control de Gazebo por defecto: el importer no pasa gazebo_ignition:=true
 sed -i '/name="gazebo_ignition"/{n;s/default="false"/default="true"/}' \
-  robotnik_description/robots/{rbsummit/rbsummit,rbtheron/rbtheron,rbvogui/rbvogui}.urdf.xacro
+  robotnik_description/robots/{rbsummit/rbsummit,rbtheron/rbtheron,rbvogui/rbvogui,rbkairos/rbkairos_plus}.urdf.xacro
 cd $WS && source /opt/ros/jazzy/setup.bash
 rosdep install --from-paths src --ignore-src -r -y && colcon build --symlink-install
 

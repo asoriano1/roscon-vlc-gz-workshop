@@ -9,7 +9,7 @@ FROM ros:jazzy-ros-base
 
 ARG DEBIAN_FRONTEND=noninteractive
 # main, 19-may-2026
-ARG IMPORTER_REF=d472d95aa2e19e87cd7eb12386191da8f8bf9b74
+ARG IMPORTER_REF=7ddd09c36057e4edbafedb7cc6953c0301329e91
 ARG BRIDGE_REF=72773a816d2211a454c2f57eab3d0fd080dfe842
 ARG CONTROL_REF=e86beb511e4fc7dc989d071460a2d126f53d252b
 # jazzy-devel, 17-jul-2026 y 5-ago-2026
@@ -73,11 +73,11 @@ COPY setup/rbsummit/rbsummit_control.urdf.xacro \
 
 # El importer expande cada xacro con sus valores por defecto, y en robotnik_description (jazzy-devel)
 # gazebo_ignition vale false: el robot nacería sin sensores de Gazebo ni gz_ros2_control, y el Bridge
-# Manager diría "No ECM sensors detected". En los tres Robotnik del taller lo ponemos a true. El
-# RB-Kairos+ se queda como está: con true, su brazo UR no expande con el ur_description de Jazzy.
+# Manager diría "No ECM sensors detected". En los cuatro Robotnik del taller lo ponemos a true.
 RUN cd ${WS}/src/robotnik_description/robots \
  && sed -i '/name="gazebo_ignition"/{n;s/default="false"/default="true"/}' \
-      rbsummit/rbsummit.urdf.xacro rbtheron/rbtheron.urdf.xacro rbvogui/rbvogui.urdf.xacro
+      rbsummit/rbsummit.urdf.xacro rbtheron/rbtheron.urdf.xacro rbvogui/rbvogui.urdf.xacro \
+      rbkairos/rbkairos_plus.urdf.xacro
 
 # Material del taller (ejercicios y documentación)
 COPY exercises /workshop/exercises
