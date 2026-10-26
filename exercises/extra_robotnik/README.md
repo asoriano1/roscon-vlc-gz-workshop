@@ -25,8 +25,12 @@ cd $WS/robots && ros2 launch mini_bot suite.launch.py
 4. Míralos en RViz: abre `rviz2`, pon como *Fixed Frame* el `base_footprint` de uno de ellos
    (`vogui_a/base_footprint`) y añade sus displays con **Add** → **By topic**.
 
-Solo el RB-Summit tiene controladores preparados en la imagen. Los demás declaran controladores de
-Robotnik que no son públicos: aquí se quedan quietos.
+El RB-Theron y el RB-Kairos+ también se conducen, igual que el Summit del post-ejercicio 3:
+impórtalos con el *Frame prefix* **vacío**, activa `joint_state_broadcaster` y
+`diff_drive_controller` en el Control Manager y lánzales el teleop con su namespace
+(`ros2 launch mini_bot teleop_raton.launch.py namespace:=theron_a`). El Kairos+ tiene ruedas mecanum,
+pero aquí se mueve como uno diferencial: avanza y gira, no se desplaza de lado; su brazo no se
+mueve. El RB-Vogui solo trae sensores: sus controladores son de Robotnik y no son públicos.
 
 ## Comparación final
 

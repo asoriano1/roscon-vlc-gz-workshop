@@ -1,0 +1,40 @@
+# Controladores del RB-Theron para el taller (solo para este taller).
+# Mismo robot y mismo hardware interface (dos ruedas motrices con interfaz de velocidad) que el
+# original de Robotnik; cambia el controlador: diff_drive_controller, que es público y ya está en
+# la imagen, en vez de robotnik_controllers/RBTheronController.
+# Lo carga setup/rbtheron/rbtheron_control.urdf.xacro (ver Dockerfile).
+#
+# Los nombres de joints van SIN prefijo: importa el RB-Theron con el campo "prefix" vacío.
+# Geometría sacada del URDF expandido (rbtheron.urdf.xacro):
+#   ruedas motrices en y = ±0.2516 → separación 0.5032 m; radio de rueda 0.0762 m
+/**:
+  controller_manager:
+    ros__parameters:
+      update_rate: 50  # Hz
+
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+
+      diff_drive_controller:
+        type: diff_drive_controller/DiffDriveController
+
+  diff_drive_controller:
+    ros__parameters:
+      left_wheel_names: ["left_wheel_joint"]
+      right_wheel_names: ["right_wheel_joint"]
+
+      wheel_separation: 0.5032
+      wheel_radius: 0.0762
+
+      publish_rate: 50.0
+      odom_frame_id: odom
+      base_frame_id: base_footprint
+      enable_odom_tf: true
+      open_loop: false
+
+      linear.x.max_velocity: 1.0
+      linear.x.min_velocity: -1.0
+      linear.x.max_acceleration: 1.0
+      angular.z.max_velocity: 1.5
+      angular.z.min_velocity: -1.5
+      angular.z.max_acceleration: 2.0

@@ -70,6 +70,12 @@ RUN source /opt/ros/jazzy/setup.bash \
 # build: con --symlink-install, install/ enlaza a src/, y el cambio se ve sin recompilar.
 COPY setup/rbsummit/rbsummit_control.urdf.xacro \
      ${WS}/src/robotnik_description/simulators/gazebo_ignition/rbsummit/rbsummit_control.urdf.xacro
+# Lo mismo, solo para este taller, con el RB-Theron (diferencial, dos ruedas motrices) y el
+# RB-Kairos+ (cuatro ruedas mecanum, en skid-steer): mini_bot/config/rb{theron,kairos}_controllers_workshop.yaml.
+COPY setup/rbtheron/rbtheron_control.urdf.xacro \
+     ${WS}/src/robotnik_description/simulators/gazebo_ignition/rbtheron/rbtheron_control.urdf.xacro
+COPY setup/rbkairos/rbkairos_control.urdf.xacro \
+     ${WS}/src/robotnik_description/simulators/gazebo_ignition/rbkairos/rbkairos_control.urdf.xacro
 
 # El importer expande cada xacro con sus valores por defecto, y en robotnik_description (jazzy-devel)
 # gazebo_ignition vale false: el robot nacería sin sensores de Gazebo ni gz_ros2_control, y el Bridge

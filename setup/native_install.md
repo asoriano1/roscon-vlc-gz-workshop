@@ -27,7 +27,9 @@ git -C robotnik_description     checkout -q 4bc73425d090ead4591a7091e7ef7e7dc4fe
 git -C robotnik_sensors         checkout -q 11852f4f14d6e0a561117396187f7674ed33ab2b
 ln -s $REPO/mini_bot $WS/src/mini_bot
 cp $REPO/setup/rbsummit/rbsummit_control.urdf.xacro \
-   robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del extra de Robotnik
+   robotnik_description/simulators/gazebo_ignition/rbsummit/   # controladores de los Robotnik
+cp $REPO/setup/rbtheron/rbtheron_control.urdf.xacro robotnik_description/simulators/gazebo_ignition/rbtheron/
+cp $REPO/setup/rbkairos/rbkairos_control.urdf.xacro robotnik_description/simulators/gazebo_ignition/rbkairos/
 # sensores y control de Gazebo por defecto: el importer no pasa gazebo_ignition:=true
 sed -i '/name="gazebo_ignition"/{n;s/default="false"/default="true"/}' \
   robotnik_description/robots/{rbsummit/rbsummit,rbtheron/rbtheron,rbvogui/rbvogui,rbkairos/rbkairos_plus}.urdf.xacro
