@@ -1,4 +1,4 @@
-# Post-ejercicio 2 — Los sensores de un RB-Summit, con el Bridge Manager (15 min)
+# Post-ejercicio 2 — Los sensores de un RB-Summit, con el Bridge Manager (13 min)
 
 Primero, la demo del ponente. Después, dos robots:
 
