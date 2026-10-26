@@ -71,6 +71,14 @@ RUN source /opt/ros/jazzy/setup.bash \
 COPY setup/rbsummit/rbsummit_control.urdf.xacro \
      ${WS}/src/robotnik_description/simulators/gazebo_ignition/rbsummit/rbsummit_control.urdf.xacro
 
+# El importer expande cada xacro con sus valores por defecto, y en robotnik_description (jazzy-devel)
+# gazebo_ignition vale false: el robot nacería sin sensores de Gazebo ni gz_ros2_control, y el Bridge
+# Manager diría "No ECM sensors detected". En los tres Robotnik del taller lo ponemos a true. El
+# RB-Kairos+ se queda como está: con true, su brazo UR no expande con el ur_description de Jazzy.
+RUN cd ${WS}/src/robotnik_description/robots \
+ && sed -i '/name="gazebo_ignition"/{n;s/default="false"/default="true"/}' \
+      rbsummit/rbsummit.urdf.xacro rbtheron/rbtheron.urdf.xacro rbvogui/rbvogui.urdf.xacro
+
 # Material del taller (ejercicios y documentación)
 COPY exercises /workshop/exercises
 COPY docs      /workshop/docs

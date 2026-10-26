@@ -28,6 +28,9 @@ git -C robotnik_sensors         checkout -q 11852f4f14d6e0a561117396187f7674ed33
 ln -s $REPO/mini_bot $WS/src/mini_bot
 cp $REPO/setup/rbsummit/rbsummit_control.urdf.xacro \
    robotnik_description/simulators/gazebo_ignition/rbsummit/   # controlador del extra de Robotnik
+# sensores y control de Gazebo por defecto: el importer no pasa gazebo_ignition:=true
+sed -i '/name="gazebo_ignition"/{n;s/default="false"/default="true"/}' \
+  robotnik_description/robots/{rbsummit/rbsummit,rbtheron/rbtheron,rbvogui/rbvogui}.urdf.xacro
 cd $WS && source /opt/ros/jazzy/setup.bash
 rosdep install --from-paths src --ignore-src -r -y && colcon build --symlink-install
 

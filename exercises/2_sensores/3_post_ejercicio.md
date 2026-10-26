@@ -112,4 +112,5 @@ Nueve topics de sensores, con tres tipos de mensaje que no salían en tu tabla (
 | El ultrasonido da `.inf` | `robot_b` no está detrás de `robot_a`: su *Pose* x tiene que ser `-0.9` |
 | Al importar el Summit se para toda la simulación | Falta marcar **robot_state_publisher**: su plugin de control espera el `robot_description` y frena Gazebo. Cierra Gazebo y vuelve a empezar |
 | El Summit no tiene sensores en el panel | Espera unos segundos y *Refresh*; si siguen sin salir, el xacro no es `rbsummit.urdf.xacro` de `$WS/robots` |
+| El panel dice *No ECM sensors detected* para el Summit, y nunca salen | La imagen es antigua: su Summit nace sin sensores. Cierra el contenedor, `docker pull ghcr.io/asoriano1/roscon-workshop:latest` y vuelve a empezar |
 | La simulación va lenta con el Summit | Sus sensores se renderizan cuando alguien se suscribe: puentea solo los dos de la lista |

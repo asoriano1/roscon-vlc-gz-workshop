@@ -126,5 +126,6 @@ Opcional, si te sobra tiempo. El mismo flujo con un robot real de Robotnik.
 | RViz no pinta el robot y avisa de un frame que no existe | El *Frame prefix* no es `robot_a/`, o `diff_drive_controller` no está `active`: el *Fixed Frame* es `robot_a/odom`, y lo publica el controlador |
 | RViz no pinta el scan ni la imagen | Falta pulsar **Run** en el Bridge Manager, o no están marcados esos dos topics |
 | El Summit: `diff_drive_controller` no pasa a `active` | El *Frame prefix* no está vacío: los joints de las ruedas llevan el prefijo y el YAML no. Cierra Gazebo y vuelve a importar |
+| El Summit no sale en el Control Manager, y el Bridge Manager dice *No ECM sensors detected* | La imagen es antigua: su Summit nace sin control ni sensores. Cierra el contenedor, `docker pull ghcr.io/asoriano1/roscon-workshop:latest` y vuelve a empezar |
 | Al importar el Summit se para toda la simulación | Falta marcar **robot_state_publisher**: su plugin de control espera el `robot_description` y frena Gazebo |
 | La simulación va lenta con el Summit | Sus sensores se renderizan cuando alguien se suscribe: puentea solo los dos de la lista |

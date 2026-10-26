@@ -19,14 +19,17 @@ cd $WS/robots && ros2 launch mini_bot suite.launch.py
 
 1. Importa un **RB-Vogui** (`rbvogui.urdf.xacro`) con *Namespace* `vogui_a` y *Frame prefix*
    `vogui_a/`.
-2. Importa otro distinto al lado: un RB-Theron o, para tener brazo, un RB-Kairos+
-   (`rbkairos_plus.urdf.xacro`), con su propio namespace y prefijo.
+2. Importa otro distinto al lado: un RB-Theron (`rbtheron.urdf.xacro`), con su propio namespace y
+   prefijo.
 3. Con el Bridge Manager, mira qué sensores trae cada uno y puentea los que quieras ver.
 4. Míralos en RViz: abre `rviz2`, pon como *Fixed Frame* el `base_footprint` de uno de ellos
    (`vogui_a/base_footprint`) y añade sus displays con **Add** → **By topic**.
 
 Solo el RB-Summit tiene controladores preparados en la imagen. Los demás declaran controladores de
 Robotnik que no son públicos: aquí se quedan quietos.
+
+El RB-Kairos+ (`rbkairos_plus.urdf.xacro`) también se importa, con su brazo, pero sin sensores: su
+brazo UR no expande con los sensores de Gazebo activados en Jazzy.
 
 ## Comparación final
 
