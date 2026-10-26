@@ -72,4 +72,4 @@ En RViz deben verse el robot, el LaserScan y la imagen de la cámara.
 | `ros2 topic list` muestra `/scan` pero `hz` no da nada | El nombre del topic de Gazebo en el YAML no coincide exactamente |
 | No se abre RViz y ROS 2 sigue sin ver los sensores | Falta el PASO 10: `bridge` y `rviz` en la lista del launch |
 | RViz dice "No transform from [lidar_link]" | El *Fixed Frame* no es `base_footprint` |
-| `hz /scan` da 2–4 Hz en vez de 5 | Es el RTF: frecuencia real = nominal × RTF |
+| `hz /scan` da menos de 5 Hz | Es el RTF: frecuencia real = nominal × RTF |

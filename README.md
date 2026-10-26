@@ -119,21 +119,21 @@ Tres secciones con la misma forma:
 2. **Ejercicio:** un problema de verdad, resuelto a mano con launch files y configuración.
 3. **Post-ejercicio:** el mismo problema, resuelto con un plugin de la suite.
 
-| Hora | Bloque | Material |
-|---|---|---|
-| 0:00–0:10 | Presentación y preparación del entorno | |
-| 0:10–0:20 | Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
-| 0:20–0:35 | **1. Spawn.** Preámbulo: un robot en Gazebo | [preámbulo 1](exercises/1_spawn/1_preambulo.md) |
-| 0:35–0:50 | Ejercicio 1: tres robots en el almacén | [ejercicio 1](exercises/1_spawn/2_ejercicio.md) |
-| 0:50–1:10 | Post-ejercicio 1: robots de Robotnik con el Model Importer | [post-ejercicio 1](exercises/1_spawn/3_post_ejercicio.md) |
-| 1:10–1:20 | Descanso | |
-| 1:20–1:32 | **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
-| 1:32–1:52 | Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
-| 1:52–2:05 | Post-ejercicio 2: Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
-| 2:05–2:17 | **3. Control.** Preámbulo: ros2_control | [preámbulo 3](exercises/3_control/1_preambulo.md) |
-| 2:17–2:37 | Ejercicio 3: el control del mástil | [ejercicio 3](exercises/3_control/2_ejercicio.md) |
-| 2:37–2:52 | Post-ejercicio 3: todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
-| 2:52–3:00 | Cierre | |
+| Bloque | Material |
+|---|---|
+| Presentación y preparación del entorno | |
+| Anatomía de un robot simulado | [anatomía](docs/anatomia.md) |
+| **1. Spawn.** Preámbulo: un robot en Gazebo | [preámbulo 1](exercises/1_spawn/1_preambulo.md) |
+| Ejercicio 1: tres robots en el almacén | [ejercicio 1](exercises/1_spawn/2_ejercicio.md) |
+| Post-ejercicio 1: robots de Robotnik con el Model Importer | [post-ejercicio 1](exercises/1_spawn/3_post_ejercicio.md) |
+| Descanso | |
+| **2. Sensores.** Preámbulo: sensores y puente | [preámbulo 2](exercises/2_sensores/1_preambulo.md) |
+| Ejercicio 2: dos sensores más | [ejercicio 2](exercises/2_sensores/2_ejercicio.md) |
+| Post-ejercicio 2: Bridge Manager | [post-ejercicio 2](exercises/2_sensores/3_post_ejercicio.md) |
+| **3. Control.** Preámbulo: ros2_control | [preámbulo 3](exercises/3_control/1_preambulo.md) |
+| Ejercicio 3: el control del mástil | [ejercicio 3](exercises/3_control/2_ejercicio.md) |
+| Post-ejercicio 3: todo con la suite | [post-ejercicio 3](exercises/3_control/3_post_ejercicio.md) |
+| Cierre | |
 
 **Extra opcional**, fuera del horario: [robots de Robotnik](exercises/extra_robotnik/), robots
 reales con mallas y sensores completos, con el mismo flujo de la suite.
